@@ -1,8 +1,5 @@
 package via.sep4.data.webapi.networking;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.WebSocket;
