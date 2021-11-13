@@ -8,4 +8,12 @@ public class Temperature {
 
     @JsonProperty("value")
     private String value;
+
+    public Temperature(String value) {
+        this.value = value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
 }

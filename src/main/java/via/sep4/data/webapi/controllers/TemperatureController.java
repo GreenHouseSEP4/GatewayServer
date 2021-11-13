@@ -16,7 +16,8 @@ public class TemperatureController {
     @GetMapping("/Temperature")
     public ResponseEntity getLatestTemperature() {
         try {
-            Temperature latestTemperature = temperatureDAO.getTemperature();
+            //Temperature latestTemperature = temperatureDAO.getTemperature();
+            Temperature latestTemperature = new Temperature("43");
             return new ResponseEntity<>(latestTemperature, HttpStatus.OK);
         }
         catch (Exception e) {
