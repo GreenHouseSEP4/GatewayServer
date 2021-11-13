@@ -11,7 +11,6 @@ import via.sep4.data.webapi.model.Temperature;
 @RestController
 public class TemperatureController {
 
-    @Autowired
     private TemperatureDAO temperatureDAO;
 
     @GetMapping("/Temperature")

@@ -1,2 +1,4 @@
-package via.sep4.data.webapi.Service;public class TemperatureServiceImpl {
+package via.sep4.data.webapi.service;
+
+public class TemperatureServiceImpl {
 }

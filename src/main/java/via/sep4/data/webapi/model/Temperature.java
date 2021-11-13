@@ -1,4 +1,4 @@
-package via.sep4.data.webapi.Model;
+package via.sep4.data.webapi.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

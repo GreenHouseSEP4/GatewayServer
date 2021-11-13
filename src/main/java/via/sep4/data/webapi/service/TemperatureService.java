@@ -1,4 +1,4 @@
-package via.sep4.data.webapi.Service;
+package via.sep4.data.webapi.service;
 
 public interface TemperatureService {
 }
