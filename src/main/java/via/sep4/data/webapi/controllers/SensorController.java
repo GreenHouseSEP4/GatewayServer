@@ -9,17 +9,20 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import via.sep4.data.webapi.model.SensorData;
 import via.sep4.data.webapi.service.SensorService;
 
 @RestController
 public class SensorController {
 
-    @Autowired
-    public SensorService sensorService;
+    private SensorService sensorService;
 
-    @GetMapping("/Temperature/{id}")
-    public ResponseEntity<SensorData> getLatestTemperature(@PathVariable int id) {
+    @Autowired
+    public SensorController(SensorService sensorService) {
+        this.sensorService = sensorService;
+    }
+
+    @GetMapping("/temperature/{id}")
+    public ResponseEntity getLatestTemperature(@PathVariable int id) {
         try {
             return new ResponseEntity<>(sensorService.findById(id), HttpStatus.OK);
         }
@@ -28,7 +31,7 @@ public class SensorController {
         }
     }
 
-    @PostMapping("/AddTemperature")
+    @PostMapping("/addtemperature")
     public ResponseEntity addTemperature(@RequestBody String value) {
         try {
             sensorService.addTemperature(value);

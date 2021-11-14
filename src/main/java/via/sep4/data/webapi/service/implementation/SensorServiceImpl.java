@@ -6,8 +6,10 @@ import org.springframework.stereotype.Service;
 import via.sep4.data.webapi.model.SensorData;
 import via.sep4.data.webapi.repository.SensorDataRepository;
 import via.sep4.data.webapi.service.SensorService;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class SensorServiceImpl implements SensorService {
 
     @Autowired

@@ -7,7 +7,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import org.springframework.stereotype.Component;
 
 @Component
@@ -39,5 +38,9 @@ public class SensorData {
 
     public int getId() {
         return id;
+    }
+
+    public String toString(){
+        return "SensorData [id=" + id + " value=" + value + "]";
     }
 }
