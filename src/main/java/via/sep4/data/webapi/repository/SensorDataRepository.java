@@ -1,12 +1,11 @@
 package via.sep4.data.webapi.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.jpa.repository.Query;
 
 import via.sep4.data.webapi.model.SensorData;
 
 public interface SensorDataRepository extends JpaRepository<SensorData, Integer> {
-    @Transactional
+    @Query("SELECT s FROM SensorData s WHERE s.id =:id")
     SensorData findById(int id);
-    SensorData addSensorData(String value);
 }

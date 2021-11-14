@@ -1,27 +1,19 @@
 package via.sep4.data.webapi.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 import via.sep4.data.webapi.service.SensorService;
 
 @RestController
+@RequestMapping("/sensor")
 public class SensorController {
-
+    @Autowired
     private SensorService sensorService;
 
-    @Autowired
-    public SensorController(SensorService sensorService) {
-        this.sensorService = sensorService;
-    }
-
-    @GetMapping("/temperature/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity getLatestTemperature(@PathVariable int id) {
         try {
             return new ResponseEntity<>(sensorService.findById(id), HttpStatus.OK);

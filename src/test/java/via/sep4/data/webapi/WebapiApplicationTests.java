@@ -37,7 +37,7 @@ class WebapiApplicationTests {
     @Test
     public void contextLoads() throws Exception {
         try {
-            Assert.assertNull(sensorService.findById(1));
+            Assert.assertNotNull(sensorService.findById(1));
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
