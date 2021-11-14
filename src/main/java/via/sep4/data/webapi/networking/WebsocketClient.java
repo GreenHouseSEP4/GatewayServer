@@ -1,8 +1,5 @@
 package via.sep4.data.webapi.networking;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.WebSocket;
@@ -76,10 +73,10 @@ public class WebsocketClient implements WebSocket.Listener {
 
     //onText()
     // TODO handle exception
-    public CompletionStage<?> onText​(WebSocket webSocket, CharSequence data, boolean last) throws JSONException {
-        String indented = (new JSONObject(data.toString())).toString(4);
-        System.out.println(indented);
-        webSocket.request(1);
-        return new CompletableFuture().completedFuture("onText() completed.").thenAccept(System.out::println);
-    };
+    // public CompletionStage<?> onText​(WebSocket webSocket, CharSequence data, boolean last) throws JSONException {
+    //     String indented = (new JSONObject(data.toString())).toString(4);
+    //     System.out.println(indented);
+    //     webSocket.request(1);
+    //     return new CompletableFuture().completedFuture("onText() completed.").thenAccept(System.out::println);
+    // };
 }
