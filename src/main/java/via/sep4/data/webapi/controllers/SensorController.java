@@ -3,9 +3,11 @@ package via.sep4.data.webapi.controllers;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import via.sep4.data.webapi.model.SensorData;
 import via.sep4.data.webapi.service.SensorService;
@@ -13,10 +15,11 @@ import via.sep4.data.webapi.service.SensorService;
 @RestController
 public class SensorController {
 
-    private SensorService sensorService;
+    @Autowired
+    public SensorService sensorService;
 
     @GetMapping("/Temperature/{id}")
-    public ResponseEntity<SensorData> getLatestTemperature(int id) {
+    public ResponseEntity<SensorData> getLatestTemperature(@PathVariable int id) {
         try {
             return new ResponseEntity<>(sensorService.findById(id), HttpStatus.OK);
         }
