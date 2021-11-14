@@ -15,33 +15,33 @@ import via.sep4.data.webapi.service.SensorService;
 @SpringBootTest
 class WebapiApplicationTests {
 
-    @Autowired
-    private WebApplicationContext wac;
+    // @Autowired
+    // private WebApplicationContext wac;
 
-    private MockMvc mvc;
+    // private MockMvc mvc;
 
-    @MockBean
-    private SensorService sensorService;
+    // @MockBean
+    // private SensorService sensorService;
 
-    @BeforeEach
-    public void setUp() throws Exception {
-        this.mvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
-        try {
-            sensorService.addTemperature("32");
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
+    // @BeforeEach
+    // public void setUp() throws Exception {
+    //     this.mvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
+    //     try {
+    //         sensorService.addTemperature("32");
+    //     } catch (Exception e) {
+    //         // TODO Auto-generated catch block
+    //         e.printStackTrace();
+    //     }
+    // }
 
-    @Test
-    public void contextLoads() throws Exception {
-        try {
-            Assert.assertNotNull(sensorService.findById(1));
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
+    // @Test
+    // public void contextLoads() throws Exception {
+    //     try {
+    //         Assert.assertNotNull(sensorService.findById(1));
+    //     } catch (Exception e) {
+    //         // TODO Auto-generated catch block
+    //         e.printStackTrace();
+    //     }
+    // }
 
 }
