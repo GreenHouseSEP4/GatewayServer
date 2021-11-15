@@ -9,5 +9,5 @@ import via.sep4.data.webapi.model.ApiKey;
 @Repository
 public interface ApiRepository extends JpaRepository<ApiKey, Integer>{
     @Query("SELECT a FROM ApiKey a WHERE a.id = :id")
-    String findById(int id);
+    ApiKey findById(int id);
 }

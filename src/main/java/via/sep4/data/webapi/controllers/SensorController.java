@@ -30,14 +30,8 @@ public class SensorController {
 
     @PostMapping("/addtemperature")
     public ResponseEntity addTemperature(@RequestHeader("api-key") String apiKey, @RequestBody String value) {
-        
-        String key = "";
-        try {
-            key = apiService.findById(1);
-        } catch (NotFoundException e1) {
-            e1.printStackTrace();
-        }
 
+        String key = getKey();
         if (key.equals(apiKey)) {
             try {
                 sensorService.addTemperature(value);
@@ -48,5 +42,15 @@ public class SensorController {
         } else {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
+    }
+
+    public String getKey() {
+        String key = "";
+        try {
+            key = apiService.findById(1);
+        } catch (NotFoundException e1) {
+            e1.printStackTrace();
+        }
+        return key;
     }
 }
