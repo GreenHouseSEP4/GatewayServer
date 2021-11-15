@@ -1,5 +1,6 @@
 package via.sep4.data.webapi.service.implementation;
 
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,7 @@ public class SensorServiceImpl implements SensorService{
         try {
             return sensorDataRepository.findById(id);
         } catch (Exception e) {
-            throw new Exception("Sensor repository not available.");
+            throw new NotFoundException("Sensor repository not available.");
         }
     }
 
@@ -28,7 +29,7 @@ public class SensorServiceImpl implements SensorService{
         try {
             return sensorDataRepository.save(data);
         } catch (Exception e) {
-            throw new Exception("Sensor repository not available.");
+            throw new NotFoundException("Sensor repository not available.");
         }
     }
 }

@@ -6,9 +6,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import via.sep4.data.webapi.model.SensorData;
 import via.sep4.data.webapi.service.ApiService;
 import via.sep4.data.webapi.service.SensorService;
 
+// TODO change controller to be per resource, one per temp, one per humidity ..
 @RestController
 @RequestMapping("/sensor")
 public class SensorController {
@@ -19,28 +21,27 @@ public class SensorController {
     private ApiService apiService;
 
     @GetMapping("/{id}")
-    public ResponseEntity getLatestTemperature(@PathVariable int id) {
+    public ResponseEntity<SensorData> getLatestTemperature(@PathVariable int id) {
         try {
             return new ResponseEntity<>(sensorService.findById(id), HttpStatus.OK);
-        }
-        catch (Exception e) {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
-    @PostMapping("/addtemperature")
-    public ResponseEntity addTemperature(@RequestHeader("api-key") String apiKey, @RequestBody String value) {
+    @PostMapping("/temperature")
+    public ResponseEntity<SensorData> addTemperature(@RequestHeader("api-key") String apiKey, @RequestBody String value) {
 
         String key = getKey();
         if (key.equals(apiKey)) {
             try {
                 sensorService.addTemperature(value);
-                return new ResponseEntity(HttpStatus.OK);
+                return new ResponseEntity<>(HttpStatus.OK);
             } catch (Exception e) {
-                return new ResponseEntity(HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
             }
         } else {
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -48,8 +49,8 @@ public class SensorController {
         String key = "";
         try {
             key = apiService.findById(1);
-        } catch (NotFoundException e1) {
-            e1.printStackTrace();
+        } catch (NotFoundException e) {
+            e.printStackTrace();
         }
         return key;
     }
