@@ -47,7 +47,11 @@ public class SensorController {
 
     public String getKey() {
         String key = "";
-        key = apiService.findById(1);
+        try {
+            key = apiService.findById(1);
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+        }
         return key;
     }
 }
