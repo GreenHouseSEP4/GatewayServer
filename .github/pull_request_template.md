@@ -1,15 +1,15 @@
-###What did you do? (One paragraph or bulletpoints)
+### What did you do? (One paragraph or bulletpoints)
 
 
 
-###Which user story you worked on?
+### Which user story you worked on?
 
 
 
-###What type of pull you want to make?
+### What type of pull you want to make?
 - [ ] User story implementation
 - [ ] Extra feature
 - [ ] Bug fix
 - [ ] Other
 
-###Other notes:
+### Other notes:
