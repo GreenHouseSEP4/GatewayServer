@@ -1,4 +1,4 @@
-package via.sep4.data.webapi.service;
+package via.sep4.data.webapi.service.api;
 
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 

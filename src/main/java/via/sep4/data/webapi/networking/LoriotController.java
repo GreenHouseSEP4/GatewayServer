@@ -3,43 +3,50 @@ package via.sep4.data.webapi.networking;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Iterables;
 import com.google.gson.Gson;
-import via.sep4.data.webapi.model.SensorData;
+
+import org.springframework.stereotype.Component;
+
 import via.sep4.data.webapi.model.loriot.actions.Command;
 import via.sep4.data.webapi.model.loriot.actions.DownLink;
-import via.sep4.data.webapi.model.loriot.actions.ReadData;
+import via.sep4.data.webapi.model.loriot.actions.SensorData;
 import via.sep4.data.webapi.model.loriot.actions.UpLink;
-import via.sep4.data.webapi.repository.SensorDataRepository;
+import via.sep4.data.webapi.service.sensor.SensorService;
 
 import java.beans.PropertyChangeEvent;
-import java.util.ArrayList;
-import java.util.List;
 
-public class LoriotData {
+@Component
+public class LoriotController {
     private Gson gson = new Gson();
-    private SensorDataRepository sensorRepository;
-    private final WebsocketClient websocketClient;
+    private SensorService sensorService;
+    private final WebSocketClient webSocketClient;
 
-    public LoriotData(Gson gson, SensorDataRepository sensorRepository) {
-        this.gson = gson;
-        this.sensorRepository = sensorRepository;
-        websocketClient = new WebsocketClient();
-        websocketClient.addPropertyChangeListener("Receive data", this::receiveData);
+    public LoriotController(SensorService sensorService) {
+        this.sensorService = sensorService;
+        webSocketClient = new WebSocketClient();
+        webSocketClient.addPropertyChangeListener("Receive data", this::receiveData);
     }
 
     public void receiveData(PropertyChangeEvent event) {
         String receivedString = event.getNewValue().toString();
+        System.out.println("Received data " + receivedString);
         UpLink message = gson.fromJson(receivedString, UpLink.class);
         if (message.getCmd().equals("rx"))
             receiveMessage(message);
     }
 
     private void receiveMessage(UpLink message) {
-        ReadData data = processData(message);
-
+        SensorData data = processData(message);
+        System.out.println("Received message: " + data);
+        try {
+            sensorService.addMeasurement(data);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
-    private ReadData processData(UpLink message) {
-        ReadData data = new ReadData();
+    private SensorData processData(UpLink message) {
+        SensorData data = new SensorData();
         Iterable<String> result = Splitter.fixedLength(4).split(message.getData());
         String[] parts = Iterables.toArray(result, String.class);
 
@@ -74,7 +81,7 @@ public class LoriotData {
 
     public void send(Command command) {
         String string = processCommand(command);
-        websocketClient.sendDownLink(string);
+        webSocketClient.sendDownLink(string);
     }
 
     private String processCommand(Command command) {
