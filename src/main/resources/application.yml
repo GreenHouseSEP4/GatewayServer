@@ -4,7 +4,7 @@ spring:
     datasource: 
         url: jdbc:sqlserver://165.22.121.230;database=GreenHouseDB
         username: sa
-        password: asdfasdfasdf
+        password: j8ugY6-c42zer
         driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
     jpa:
         show-sql: true

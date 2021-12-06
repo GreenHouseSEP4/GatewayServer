@@ -2,17 +2,17 @@ package via.sep4.data.webapi.service.sensor;
 
 import javassist.NotFoundException;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import via.sep4.data.webapi.model.loriot.actions.SensorData;
 import via.sep4.data.webapi.repository.SensorDataRepository;
+import via.sep4.data.webapi.util.SortByDate;
 
 @Service
-public class SensorServiceImpl implements SensorService{
+public class SensorServiceImpl implements SensorService {
     @Autowired
     private SensorDataRepository sensorDataRepository;
 
@@ -46,10 +46,12 @@ public class SensorServiceImpl implements SensorService{
     @Override
     public List<SensorData> getPeriodicMeasurements(Date startDate, Date endDate) throws Exception {
         try {
-            return sensorDataRepository.findByDateBetween(startDate, endDate);
+            List<SensorData> all = sensorDataRepository.findAllByDateBetween(startDate, endDate);
+            Collections.sort(all, new SortByDate());
+            return all;
         } catch (Exception e) {
             throw new NotFoundException("Sensor repository not available.");
         }
-        
+
     }
 }

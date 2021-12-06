@@ -2,6 +2,7 @@ package via.sep4.data.webapi.controllers;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -37,15 +38,19 @@ public class SensorController {
     @GetMapping("/periodic/start={startdate}&end={enddate}")
     public ResponseEntity<List<SensorData>> getPeriodicMeasurements(@PathVariable String startdate, @PathVariable String enddate) {
         Date startDate = null;
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         try {
-            startDate = new SimpleDateFormat("yyyy-mm-dd").parse(startdate);
+
+            startDate = format.parse(startdate);
+           // startDate = new SimpleDateFormat("yyyy-mm-dd").parse(startdate);
         } catch (ParseException e1) {
             // TODO Auto-generated catch block
             e1.printStackTrace();
         }
         Date endDate = null;
         try {
-            endDate = new SimpleDateFormat("yyyy-mm-dd").parse(enddate);
+            endDate = format.parse(enddate);
+            //endDate = new SimpleDateFormat("yyyy-mm-dd").parse(enddate);
         } catch (ParseException e1) {
             // TODO Auto-generated catch block
             e1.printStackTrace();
