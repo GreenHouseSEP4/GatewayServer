@@ -18,12 +18,12 @@ import java.beans.PropertyChangeEvent;
 public class LoriotController {
     private Gson gson = new Gson();
     private SensorService sensorService;
-    private final WebsocketClient websocketClient;
+    private final WebSocketClient webSocketClient;
 
     public LoriotController(SensorService sensorService) {
         this.sensorService = sensorService;
-        websocketClient = new WebsocketClient();
-        websocketClient.addPropertyChangeListener("Receive data", this::receiveData);
+        webSocketClient = new WebSocketClient();
+        webSocketClient.addPropertyChangeListener("Receive data", this::receiveData);
     }
 
     public void receiveData(PropertyChangeEvent event) {
@@ -81,7 +81,7 @@ public class LoriotController {
 
     public void send(Command command) {
         String string = processCommand(command);
-        websocketClient.sendDownLink(string);
+        webSocketClient.sendDownLink(string);
     }
 
     private String processCommand(Command command) {

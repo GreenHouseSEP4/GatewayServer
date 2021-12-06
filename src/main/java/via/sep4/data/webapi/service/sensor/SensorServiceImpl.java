@@ -1,6 +1,10 @@
 package via.sep4.data.webapi.service.sensor;
 
 import javassist.NotFoundException;
+
+import java.util.Date;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,5 +41,15 @@ public class SensorServiceImpl implements SensorService{
         } catch (Exception e) {
             throw new NotFoundException("Sensor repository not available.");
         }
+    }
+
+    @Override
+    public List<SensorData> getPeriodicMeasurements(Date startDate, Date endDate) throws Exception {
+        try {
+            return sensorDataRepository.findByDateBetween(startDate, endDate);
+        } catch (Exception e) {
+            throw new NotFoundException("Sensor repository not available.");
+        }
+        
     }
 }

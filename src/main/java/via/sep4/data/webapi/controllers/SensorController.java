@@ -1,5 +1,10 @@
 package via.sep4.data.webapi.controllers;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.HttpStatus;
@@ -24,6 +29,29 @@ public class SensorController {
     public ResponseEntity<SensorData> getLatestMeasurement() {
         try {
             return new ResponseEntity<>(sensorService.getLatestMeasurement(), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/periodic/start={startdate}&end={enddate}")
+    public ResponseEntity<List<SensorData>> getPeriodicMeasurements(@PathVariable String startdate, @PathVariable String enddate) {
+        Date startDate = null;
+        try {
+            startDate = new SimpleDateFormat("yyyy-mm-dd").parse(startdate);
+        } catch (ParseException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
+        Date endDate = null;
+        try {
+            endDate = new SimpleDateFormat("yyyy-mm-dd").parse(enddate);
+        } catch (ParseException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
+        try {
+            return new ResponseEntity<>(sensorService.getPeriodicMeasurements(startDate, endDate), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

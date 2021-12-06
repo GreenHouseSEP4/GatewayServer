@@ -1,5 +1,8 @@
 package via.sep4.data.webapi.repository;
 
+import java.util.Date;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -10,6 +13,8 @@ public interface SensorDataRepository extends JpaRepository<SensorData, Integer>
     SensorData findById(int id);
 
     SensorData findFirstByOrderByIdDesc();
+
+    List<SensorData> findByDateBetween(Date startDate, Date endDate);
 
     // @Query("INSERT INTO SensorData (id, name) VALUES (:id)")
     // void addMeasurement(SensorData measurement);

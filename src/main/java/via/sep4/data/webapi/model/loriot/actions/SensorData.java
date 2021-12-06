@@ -6,6 +6,8 @@ import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 @Entity
 @Table(name = "SensorData", schema = "dbo")
 public class SensorData {
@@ -18,6 +20,7 @@ public class SensorData {
 
     @JsonProperty("date")
     @Column(name = "Date")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date date;
 
     @JsonProperty("time")
