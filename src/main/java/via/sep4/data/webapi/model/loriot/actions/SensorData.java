@@ -20,7 +20,6 @@ public class SensorData {
 
     @JsonProperty("date")
     @Column(name = "Date")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date date;
 
     @JsonProperty("time")
