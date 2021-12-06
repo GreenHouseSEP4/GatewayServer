@@ -38,11 +38,10 @@ public class SensorController {
     @GetMapping("/periodic/start={startdate}&end={enddate}")
     public ResponseEntity<List<SensorData>> getPeriodicMeasurements(@PathVariable String startdate, @PathVariable String enddate) {
         Date startDate = null;
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
         try {
-
             startDate = format.parse(startdate);
-           // startDate = new SimpleDateFormat("yyyy-mm-dd").parse(startdate);
+            startDate.setTime(startDate.getTime() + 3600);
         } catch (ParseException e1) {
             // TODO Auto-generated catch block
             e1.printStackTrace();
@@ -50,7 +49,7 @@ public class SensorController {
         Date endDate = null;
         try {
             endDate = format.parse(enddate);
-            //endDate = new SimpleDateFormat("yyyy-mm-dd").parse(enddate);
+            endDate.setTime(endDate.getTime() + 3600);
         } catch (ParseException e1) {
             // TODO Auto-generated catch block
             e1.printStackTrace();
