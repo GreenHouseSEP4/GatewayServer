@@ -13,7 +13,7 @@ import java.util.concurrent.CompletionStage;
 
 public class WebsocketClient implements WebSocket.Listener, PropertyChangeSubject {
 
-    private String WEB_SOCKET_URL = "wss://iotnet.cibicom.dk/app?token=vnoUBwAAABFpb3RuZXQuY2liaWNvbS5ka54Zx4fqYp5yzAQtnGzDDUw=";
+    private String WEB_SOCKET_URL = "wss://iotnet.cibicom.dk/app?token=vnoUBQAAABFpb3RuZXQuY2liaWNvbS5ka4lPPjDJdv8czIiFOiS49tg=";
     private WebSocket server = null;
     private PropertyChangeSupport support = new PropertyChangeSupport(this);
 
@@ -28,13 +28,6 @@ public class WebsocketClient implements WebSocket.Listener, PropertyChangeSubjec
         HttpClient client = HttpClient.newHttpClient();
         CompletableFuture<WebSocket> ws = client.newWebSocketBuilder()
                 .buildAsync(URI.create(WEB_SOCKET_URL), this);
-        server = ws.join();
-    }
-
-    public WebsocketClient(String url) {
-        HttpClient client = HttpClient.newHttpClient();
-        CompletableFuture<WebSocket> ws = client.newWebSocketBuilder()
-                .buildAsync(URI.create(url), this);
         server = ws.join();
     }
 
