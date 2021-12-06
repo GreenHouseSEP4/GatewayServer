@@ -68,8 +68,8 @@ public class ReadData {
 
     @Override
     public String toString() {
-        return "SensorData{" +
-                ", date='" + date + '\'' +
+        return "ReadData{" +
+                "date='" + date + '\'' +
                 ", time='" + time + '\'' +
                 ", humidity=" + humidity +
                 ", temperature=" + temperature +

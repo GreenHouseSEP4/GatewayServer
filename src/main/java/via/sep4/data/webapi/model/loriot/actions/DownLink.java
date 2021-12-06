@@ -9,7 +9,7 @@ public class DownLink {
 
     public DownLink(int port, boolean confirmed, String data) {
         this.cmd = "tx";
-        this.EUI = "0004A30B00219CAC";
+        this.EUI = "9276B3CF3B069355";
         this.port = port;
         this.confirmed = confirmed;
         this.data = data;

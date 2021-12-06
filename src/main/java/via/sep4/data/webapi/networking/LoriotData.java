@@ -3,7 +3,9 @@ package via.sep4.data.webapi.networking;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Iterables;
 import com.google.gson.Gson;
-import via.sep4.data.webapi.model.SensorData;
+
+import org.springframework.stereotype.Component;
+
 import via.sep4.data.webapi.model.loriot.actions.Command;
 import via.sep4.data.webapi.model.loriot.actions.DownLink;
 import via.sep4.data.webapi.model.loriot.actions.ReadData;
@@ -11,23 +13,24 @@ import via.sep4.data.webapi.model.loriot.actions.UpLink;
 import via.sep4.data.webapi.repository.SensorDataRepository;
 
 import java.beans.PropertyChangeEvent;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.Instant;
 
+@Component
 public class LoriotData {
     private Gson gson = new Gson();
     private SensorDataRepository sensorRepository;
     private final WebsocketClient websocketClient;
 
-    public LoriotData(Gson gson, SensorDataRepository sensorRepository) {
-        this.gson = gson;
+    public LoriotData(SensorDataRepository sensorRepository) {
         this.sensorRepository = sensorRepository;
         websocketClient = new WebsocketClient();
         websocketClient.addPropertyChangeListener("Receive data", this::receiveData);
+        receiveMessage(new UpLink(Instant.now().toEpochMilli(), true, 1, 1, "00 00"));
     }
 
     public void receiveData(PropertyChangeEvent event) {
         String receivedString = event.getNewValue().toString();
+        System.out.println("Received data " + receivedString);
         UpLink message = gson.fromJson(receivedString, UpLink.class);
         if (message.getCmd().equals("rx"))
             receiveMessage(message);
@@ -35,7 +38,7 @@ public class LoriotData {
 
     private void receiveMessage(UpLink message) {
         ReadData data = processData(message);
-
+        System.out.println("Received message: " + data);
     }
 
     private ReadData processData(UpLink message) {

@@ -11,7 +11,7 @@ public class UpLink {
 
     public UpLink(long ts, boolean ack, double fcnt, int port, String data) {
         this.cmd = "rx";
-        this.EUI = "0004A30B00219CAC";
+        this.EUI = "9276B3CF3B069355";
         this.ts = ts;
         this.ack = ack;
         this.fcnt = fcnt;
