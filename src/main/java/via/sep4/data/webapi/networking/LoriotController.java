@@ -8,24 +8,22 @@ import org.springframework.stereotype.Component;
 
 import via.sep4.data.webapi.model.loriot.actions.Command;
 import via.sep4.data.webapi.model.loriot.actions.DownLink;
-import via.sep4.data.webapi.model.loriot.actions.ReadData;
+import via.sep4.data.webapi.model.loriot.actions.SensorData;
 import via.sep4.data.webapi.model.loriot.actions.UpLink;
-import via.sep4.data.webapi.repository.SensorDataRepository;
+import via.sep4.data.webapi.service.sensor.SensorService;
 
 import java.beans.PropertyChangeEvent;
-import java.time.Instant;
 
 @Component
-public class LoriotData {
+public class LoriotController {
     private Gson gson = new Gson();
-    private SensorDataRepository sensorRepository;
+    private SensorService sensorService;
     private final WebsocketClient websocketClient;
 
-    public LoriotData(SensorDataRepository sensorRepository) {
-        this.sensorRepository = sensorRepository;
+    public LoriotController(SensorService sensorService) {
+        this.sensorService = sensorService;
         websocketClient = new WebsocketClient();
         websocketClient.addPropertyChangeListener("Receive data", this::receiveData);
-        receiveMessage(new UpLink(Instant.now().toEpochMilli(), true, 1, 1, "00 00"));
     }
 
     public void receiveData(PropertyChangeEvent event) {
@@ -37,12 +35,18 @@ public class LoriotData {
     }
 
     private void receiveMessage(UpLink message) {
-        ReadData data = processData(message);
+        SensorData data = processData(message);
         System.out.println("Received message: " + data);
+        try {
+            sensorService.addMeasurement(data);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
-    private ReadData processData(UpLink message) {
-        ReadData data = new ReadData();
+    private SensorData processData(UpLink message) {
+        SensorData data = new SensorData();
         Iterable<String> result = Splitter.fixedLength(4).split(message.getData());
         String[] parts = Iterables.toArray(result, String.class);
 

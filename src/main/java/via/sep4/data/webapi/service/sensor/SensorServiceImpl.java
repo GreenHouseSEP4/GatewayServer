@@ -1,12 +1,11 @@
-package via.sep4.data.webapi.service.implementation;
+package via.sep4.data.webapi.service.sensor;
 
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import via.sep4.data.webapi.model.SensorData;
+import via.sep4.data.webapi.model.loriot.actions.SensorData;
 import via.sep4.data.webapi.repository.SensorDataRepository;
-import via.sep4.data.webapi.service.SensorService;
 
 @Service
 public class SensorServiceImpl implements SensorService{
@@ -23,11 +22,18 @@ public class SensorServiceImpl implements SensorService{
     }
 
     @Override
-    public SensorData addTemperature(String value) throws Exception {
-        SensorData data = new SensorData();
-        data.setValue(value);
+    public SensorData addMeasurement(SensorData data) throws Exception {
         try {
             return sensorDataRepository.save(data);
+        } catch (Exception e) {
+            throw new NotFoundException("Sensor repository not available.");
+        }
+    }
+
+    @Override
+    public SensorData getLatestMeasurement() throws Exception {
+        try {
+            return sensorDataRepository.findFirstByOrderByIdDesc();
         } catch (Exception e) {
             throw new NotFoundException("Sensor repository not available.");
         }
