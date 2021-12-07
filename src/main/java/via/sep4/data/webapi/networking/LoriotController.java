@@ -51,9 +51,7 @@ public class LoriotController {
     private SensorData processData(UpLink message) {
         SensorData data = new SensorData();
         String[] parts = new String[5];
-        int msg = Integer.parseInt(message.getData());
-        String binary = Integer.toBinaryString(msg);
-        Matcher matcher = Pattern.compile("^(.{16})(.{8})(.{12})(.{16})(.{2})").matcher(binary);
+        Matcher matcher = Pattern.compile("^(.{4})(.{2})(.{3})(.{6})(.{1})").matcher(message.getData());
         if (matcher.matches()) {
             for (int i = 0; i < matcher.groupCount(); i++) {
                 parts[i] = matcher.group(i + 1);
@@ -68,16 +66,16 @@ public class LoriotController {
             String tempString = part.substring(1);
             switch (part.charAt(0)) {
                 case '1':
-                    temp = Integer.parseInt(tempString, 2);
+                    temp = Integer.parseInt(tempString, 16);
                     break;
                 case '2':
-                    hum = Integer.parseInt(tempString, 2);
+                    hum = Integer.parseInt(tempString, 16);
                     break;
                 case '3':
-                    co2 = Integer.parseInt(tempString, 2);
+                    co2 = Integer.parseInt(tempString, 16);
                     break;
                 case '4':
-                    light = Integer.parseInt(tempString, 2);
+                    light = Integer.parseInt(tempString, 16);
                     break;
             }
         }
