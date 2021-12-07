@@ -51,7 +51,7 @@ public class LoriotController {
     private SensorData processData(UpLink message) {
         SensorData data = new SensorData();
         String[] parts = new String[5];
-        Matcher matcher = Pattern.compile("^(.{4})(.{2})(.{3})(.{6})(.{1})").matcher(message.getData());
+        Matcher matcher = Pattern.compile("^(.{4})(.{2})(.{3})(.{4})(.{1})").matcher(message.getData());
         if (matcher.matches()) {
             for (int i = 0; i < matcher.groupCount(); i++) {
                 parts[i] = matcher.group(i + 1);
@@ -62,23 +62,23 @@ public class LoriotController {
         int co2 = 0;
         int light = 0;
 
-        for (String part : parts) {
-            String tempString = part.substring(1);
-            switch (part.charAt(0)) {
+        for (int i = 0; i < parts.length - 1; i++) {
+            switch (i) {
+                case '0':
+                    temp = Integer.parseInt(parts[i], 16);
+                    break;
                 case '1':
-                    temp = Integer.parseInt(tempString, 16);
+                    hum = Integer.parseInt(parts[i], 16);
                     break;
                 case '2':
-                    hum = Integer.parseInt(tempString, 16);
+                    co2 = Integer.parseInt(parts[i], 16);
                     break;
                 case '3':
-                    co2 = Integer.parseInt(tempString, 16);
-                    break;
-                case '4':
-                    light = Integer.parseInt(tempString, 16);
+                    light = Integer.parseInt(parts[i], 16);
                     break;
             }
         }
+
         data.setHumidity(hum);
         data.setCo2(co2);
         data.setLight(light);
