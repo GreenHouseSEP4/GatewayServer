@@ -1,10 +1,10 @@
 package via.sep4.data.webapi.model.loriot.actions;
 
-public class Command {
+public class RemoteCommand {
     private String value;
     private int destinationPort;
 
-    public Command(String value, int destinationPort) {
+    public RemoteCommand(String value, int destinationPort) {
         this.value = value;
         this.destinationPort = destinationPort;
     }

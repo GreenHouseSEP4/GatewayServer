@@ -16,7 +16,6 @@ import via.sep4.data.webapi.model.loriot.actions.SensorData;
 import via.sep4.data.webapi.service.api.ApiService;
 import via.sep4.data.webapi.service.sensor.SensorService;
 
-// TODO change controller to be per resource, one per temp, one per humidity ..
 @RestController
 @RequestMapping("/sensor")
 public class SensorController {
