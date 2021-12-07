@@ -6,7 +6,7 @@ import com.google.gson.Gson;
 
 import org.springframework.stereotype.Component;
 
-import via.sep4.data.webapi.model.loriot.actions.Command;
+import via.sep4.data.webapi.model.loriot.actions.RemoteCommand;
 import via.sep4.data.webapi.model.loriot.actions.DownLink;
 import via.sep4.data.webapi.model.loriot.actions.SensorData;
 import via.sep4.data.webapi.model.loriot.actions.UpLink;
@@ -79,12 +79,12 @@ public class LoriotController {
         return data;
     }
 
-    public void send(Command command) {
+    public void send(RemoteCommand command) {
         String string = processCommand(command);
         webSocketClient.sendDownLink(string);
     }
 
-    private String processCommand(Command command) {
+    private String processCommand(RemoteCommand command) {
         String data = command.getValue();
         DownLink message = new DownLink(command.getDestinationPort(), true, data);
         return gson.toJson(message);
