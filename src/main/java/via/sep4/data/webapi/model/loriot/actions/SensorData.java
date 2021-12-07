@@ -1,9 +1,7 @@
 package via.sep4.data.webapi.model.loriot.actions;
 
 import java.util.Date;
-
 import javax.persistence.*;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
@@ -57,7 +55,11 @@ public class SensorData {
     }
 
     public void setHumidity(int humidity) {
-        this.humidity = humidity;
+        if (humidity >= 0 && humidity <= 99) {
+            this.humidity = humidity;
+        } else {
+            this.humidity = -4444;
+        }
     }
 
     public int getTemperature() {
@@ -65,7 +67,11 @@ public class SensorData {
     }
 
     public void setTemperature(int temperature) {
-        this.temperature = temperature;
+        if (temperature >= -100 && temperature <= 100) {
+            this.temperature = temperature;
+        } else {
+            this.temperature = -4444;
+        }
     }
 
     public int getLight() {
@@ -73,7 +79,11 @@ public class SensorData {
     }
 
     public void setLight(int light) {
-        this.light = light;
+        if (light >= 0 && light <= 130000) {
+            this.light = light;
+        } else {
+            this.light = -4444;
+        }
     }
 
     public int getCo2() {
@@ -81,7 +91,11 @@ public class SensorData {
     }
 
     public void setCo2(int co2) {
-        this.co2 = co2;
+        if (co2 >= 0 && co2 <= 9999) {
+            this.co2 = co2;
+        } else {
+            this.co2 = -4444;
+        }
     }
 
     @Override

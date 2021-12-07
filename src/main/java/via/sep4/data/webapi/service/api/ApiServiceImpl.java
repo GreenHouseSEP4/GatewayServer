@@ -8,6 +8,7 @@ import via.sep4.data.webapi.repository.ApiRepository;
 
 @Service
 public class ApiServiceImpl implements ApiService {
+    
     @Autowired
     private ApiRepository apiRepository;
 

@@ -14,19 +14,20 @@ public class RemoteServiceImpl implements RemoteService {
     
     @Override
     public void sendCommand(String command) {
-        String deviceCommand = "";
+        String deviceCommand = "000";
         switch(command) {
             case "activate":
-                deviceCommand = "1";
+                deviceCommand += "10";
                 break;
             case "deactivate":
-                deviceCommand = "0";
+                deviceCommand += "00";
                 break;
             default:
-                deviceCommand = "2";
+                deviceCommand += "01";
         }
         
         System.err.println(deviceCommand);
+
         try {
             loriotController.send(new RemoteCommand(deviceCommand, 2));
         } catch (Exception e) {

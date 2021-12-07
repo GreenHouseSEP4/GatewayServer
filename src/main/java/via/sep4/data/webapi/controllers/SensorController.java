@@ -2,18 +2,15 @@ package via.sep4.data.webapi.controllers;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import via.sep4.data.webapi.model.loriot.actions.SensorData;
-import via.sep4.data.webapi.service.api.ApiService;
 import via.sep4.data.webapi.service.sensor.SensorService;
 
 @RestController
@@ -21,9 +18,6 @@ import via.sep4.data.webapi.service.sensor.SensorService;
 public class SensorController {
     @Autowired
     private SensorService sensorService;
-
-    @Autowired
-    private ApiService apiService;
 
     @GetMapping("/latest")
     public ResponseEntity<SensorData> getLatestMeasurement() {
@@ -34,23 +28,19 @@ public class SensorController {
         }
     }
 
-    @GetMapping("/periodic/start={startdate}&end={enddate}")
-    public ResponseEntity<List<SensorData>> getPeriodicMeasurements(@PathVariable String startdate, @PathVariable String enddate) {
+    @GetMapping("/periodic/start={start}&end={end}")
+    public ResponseEntity<List<SensorData>> getPeriodicMeasurements(@PathVariable String start, @PathVariable String end) {
         Date startDate = null;
-        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
-            startDate = format.parse(startdate);
-            startDate.setTime(startDate.getTime() + 3600);
+            startDate = format.parse(start);
         } catch (ParseException e1) {
-            // TODO Auto-generated catch block
             e1.printStackTrace();
         }
         Date endDate = null;
         try {
-            endDate = format.parse(enddate);
-            endDate.setTime(endDate.getTime() + 3600);
+            endDate = format.parse(end);
         } catch (ParseException e1) {
-            // TODO Auto-generated catch block
             e1.printStackTrace();
         }
         try {
@@ -58,15 +48,5 @@ public class SensorController {
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-    }
-
-    public String getKey() {
-        String key = "";
-        try {
-            key = apiService.findById(1);
-        } catch (NotFoundException e) {
-            e.printStackTrace();
-        }
-        return key;
     }
 }

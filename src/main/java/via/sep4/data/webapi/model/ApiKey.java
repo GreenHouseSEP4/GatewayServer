@@ -17,10 +17,6 @@ public class ApiKey {
     @JsonProperty("keyValue")
     private String keyValue;
 
-    public ApiKey() {
-
-    }
-
     public int getId() {
         return id;
     }
