@@ -13,6 +13,8 @@ import via.sep4.data.webapi.model.loriot.actions.UpLink;
 import via.sep4.data.webapi.service.sensor.SensorService;
 
 import java.beans.PropertyChangeEvent;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Component
 public class LoriotController {
@@ -47,9 +49,15 @@ public class LoriotController {
 
     private SensorData processData(UpLink message) {
         SensorData data = new SensorData();
-        Iterable<String> result = Splitter.fixedLength(4).split(message.getData());
-        String[] parts = Iterables.toArray(result, String.class);
-
+        String[] parts = new String[5];
+        int msg = Integer.parseInt(message.getData());
+        String binary = Integer.toBinaryString(msg);
+        Matcher matcher = Pattern.compile("^(.{16})(.{8})(.{12})(.{16})(.{2})").matcher(binary);
+        if (matcher.matches()) {
+            for (int i = 0; i < matcher.groupCount(); i++) {
+                parts[i] = matcher.group(i + 1);
+            }
+        }
         int temp = 0;
         int hum = 0;
         int co2 = 0;
@@ -59,16 +67,16 @@ public class LoriotController {
             String tempString = part.substring(1);
             switch (part.charAt(0)) {
                 case '1':
-                    hum = Integer.parseInt(tempString, 16);
+                    temp = Integer.parseInt(tempString, 2);
                     break;
                 case '2':
-                    co2 = Integer.parseInt(tempString, 16);
+                    hum = Integer.parseInt(tempString, 2);
                     break;
                 case '3':
-                    temp = Integer.parseInt(tempString, 16);
+                    co2 = Integer.parseInt(tempString, 2);
                     break;
                 case '4':
-                    light = Integer.parseInt(tempString, 16);
+                    light = Integer.parseInt(tempString, 2);
                     break;
             }
         }
