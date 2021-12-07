@@ -63,19 +63,14 @@ public class LoriotController {
         int light = 0;
 
         for (int i = 0; i < parts.length - 1; i++) {
-            switch (i) {
-                case '0':
-                    temp = Integer.parseInt(parts[i], 16);
-                    break;
-                case '1':
-                    hum = Integer.parseInt(parts[i], 16);
-                    break;
-                case '2':
-                    co2 = Integer.parseInt(parts[i], 16);
-                    break;
-                case '3':
-                    light = Integer.parseInt(parts[i], 16);
-                    break;
+            if (i == 0) {
+                temp = Integer.parseInt(parts[i], 16);
+            } else if (i == 1) {
+                hum = Integer.parseInt(parts[i], 16);
+            } else if (i == 2) {
+                co2 = Integer.parseInt(parts[i], 16);
+            } else {
+                light = Integer.parseInt(parts[i], 16);
             }
         }
 
