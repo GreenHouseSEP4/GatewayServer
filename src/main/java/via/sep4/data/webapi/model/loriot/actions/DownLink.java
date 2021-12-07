@@ -1,5 +1,7 @@
 package via.sep4.data.webapi.model.loriot.actions;
 
+import via.sep4.data.webapi.util.Constants;
+
 public class DownLink {
     private String cmd;
     private String EUI;
@@ -8,8 +10,8 @@ public class DownLink {
     private String data;
 
     public DownLink(int port, boolean confirmed, String data) {
-        this.cmd = "tx";
-        this.EUI = "0004A30B00259D2C";
+        this.cmd = Constants.SEND_COMMAND;
+        this.EUI = Constants.EUI;
         this.port = port;
         this.confirmed = confirmed;
         this.data = data;

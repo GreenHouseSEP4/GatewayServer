@@ -8,6 +8,7 @@ import via.sep4.data.webapi.model.loriot.actions.DownLink;
 import via.sep4.data.webapi.model.loriot.actions.SensorData;
 import via.sep4.data.webapi.model.loriot.actions.UpLink;
 import via.sep4.data.webapi.service.sensor.SensorService;
+import via.sep4.data.webapi.util.Constants;
 
 import java.beans.PropertyChangeEvent;
 import java.util.regex.Matcher;
@@ -30,7 +31,7 @@ public class LoriotController {
         String receivedString = event.getNewValue().toString();
         System.out.println("Received data " + receivedString);
         UpLink message = gson.fromJson(receivedString, UpLink.class);
-        if (message.getCmd().equals("rx"))
+        if (message.getCmd().equals(Constants.RECEIVE_COMMAND)) {}
             receiveMessage(message);
     }
 
@@ -79,7 +80,7 @@ public class LoriotController {
     }
 
     private Date processTimestamp(UpLink message) {
-        return new Date(message.getTs() + 3600000);
+        return new Date(message.getTs() + Constants.ONE_HOUR);
     }
 
     public void send(RemoteCommand command) {

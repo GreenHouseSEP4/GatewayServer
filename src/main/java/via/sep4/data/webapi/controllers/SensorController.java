@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import via.sep4.data.webapi.model.loriot.actions.SensorData;
 import via.sep4.data.webapi.service.sensor.SensorService;
+import via.sep4.data.webapi.util.Constants;
 
 @RestController
 @RequestMapping("/sensor")
@@ -31,7 +32,7 @@ public class SensorController {
     @GetMapping("/periodic/start={start}&end={end}")
     public ResponseEntity<List<SensorData>> getPeriodicMeasurements(@PathVariable String start, @PathVariable String end) {
         Date startDate = null;
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT);
         try {
             startDate = format.parse(start);
         } catch (ParseException e1) {

@@ -1,5 +1,6 @@
 package via.sep4.data.webapi.networking;
 
+import via.sep4.data.webapi.util.Constants;
 import via.sep4.data.webapi.util.PropertyChangeSubject;
 
 import java.beans.PropertyChangeListener;
@@ -13,7 +14,6 @@ import java.util.concurrent.CompletionStage;
 
 public class WebSocketClient implements WebSocket.Listener, PropertyChangeSubject {
 
-    private final String WEB_SOCKET_URL = "wss://iotnet.cibicom.dk/app?token=vnoUBQAAABFpb3RuZXQuY2liaWNvbS5ka4lPPjDJdv8czIiFOiS49tg=";
     private WebSocket server = null;
     private PropertyChangeSupport support = new PropertyChangeSupport(this);
 
@@ -24,7 +24,7 @@ public class WebSocketClient implements WebSocket.Listener, PropertyChangeSubjec
     public WebSocketClient() {
         HttpClient client = HttpClient.newHttpClient();
         CompletableFuture<WebSocket> ws = client.newWebSocketBuilder()
-                .buildAsync(URI.create(WEB_SOCKET_URL), this);
+                .buildAsync(URI.create(Constants.WEB_SOCKET_URL), this);
         server = ws.join();
     }
 
