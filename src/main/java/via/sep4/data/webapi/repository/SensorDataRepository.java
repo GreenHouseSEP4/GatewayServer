@@ -11,8 +11,6 @@ import via.sep4.data.webapi.model.loriot.actions.SensorData;
 public interface SensorDataRepository extends JpaRepository<SensorData, Integer> {
     @Query("SELECT s FROM SensorData s WHERE s.id =:id")
     SensorData findById(int id);
-
     SensorData findFirstByOrderByIdDesc();
-
     List<SensorData> findAllByDateBetween(Date startDate, Date endDate);
 }

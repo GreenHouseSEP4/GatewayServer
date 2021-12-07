@@ -1,9 +1,6 @@
 package via.sep4.data.webapi.networking;
 
-import com.google.common.base.Splitter;
-import com.google.common.collect.Iterables;
 import com.google.gson.Gson;
-
 import org.springframework.stereotype.Component;
 
 import via.sep4.data.webapi.model.loriot.actions.RemoteCommand;
@@ -43,7 +40,6 @@ public class LoriotController {
         try {
             sensorService.addMeasurement(data);
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -68,9 +64,9 @@ public class LoriotController {
             } else if (i == 1) {
                 hum = Integer.parseInt(parts[i], 16);
             } else if (i == 2) {
-                co2 = Integer.parseInt(parts[i], 16);
+                co2 = Integer.parseInt(parts[i], 16) * 2;
             } else {
-                light = Integer.parseInt(parts[i], 16);
+                light = Integer.parseInt(parts[i], 16) * 4;
             }
         }
 
@@ -87,8 +83,9 @@ public class LoriotController {
     }
 
     public void send(RemoteCommand command) {
-        String string = processCommand(command);
-        webSocketClient.sendDownLink(string);
+        String data = processCommand(command);
+        webSocketClient.sendDownLink(data);
+        System.out.println("Data: " + data);
     }
 
     private String processCommand(RemoteCommand command) {

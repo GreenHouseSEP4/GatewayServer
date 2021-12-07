@@ -17,8 +17,8 @@ public class WebSocketClient implements WebSocket.Listener, PropertyChangeSubjec
     private WebSocket server = null;
     private PropertyChangeSupport support = new PropertyChangeSupport(this);
 
-    public void sendDownLink(String jsonTelegram) {
-        server.sendText(jsonTelegram, true);
+    public void sendDownLink(String data) {
+        server.sendText(data, true);
     }
 
     public WebSocketClient() {
@@ -28,27 +28,23 @@ public class WebSocketClient implements WebSocket.Listener, PropertyChangeSubjec
         server = ws.join();
     }
 
-    // onOpen()
     public void onOpen(WebSocket webSocket) {
         webSocket.request(1);
         System.out.println("WebSocket Listener has been opened for requests.");
     }
 
-    // onError()
     public void onError(WebSocket webSocket, Throwable error) {
         System.out.println("A " + error.getCause() + " exception was thrown.");
         System.out.println("Message: " + error.getLocalizedMessage());
         webSocket.abort();
     }
 
-    // onClose()
     public CompletionStage<?> onClose(WebSocket webSocket, int statusCode, String reason) {
         System.out.println("WebSocket closed!");
         System.out.println("Status:" + statusCode + " Reason: " + reason);
         return new CompletableFuture().completedFuture("onClose() completed.").thenAccept(System.out::println);
     }
 
-    // onPing()
     public CompletionStage<?> onPing(WebSocket webSocket, ByteBuffer message) {
         webSocket.request(1);
         System.out.println("Ping: Client ---> Server");
@@ -56,7 +52,6 @@ public class WebSocketClient implements WebSocket.Listener, PropertyChangeSubjec
         return new CompletableFuture().completedFuture("Ping completed.").thenAccept(System.out::println);
     }
 
-    // onPong()
     public CompletionStage<?> onPong(WebSocket webSocket, ByteBuffer message) {
         webSocket.request(1);
         System.out.println("Pong: Client ---> Server");
@@ -64,8 +59,6 @@ public class WebSocketClient implements WebSocket.Listener, PropertyChangeSubjec
         return new CompletableFuture().completedFuture("Pong completed.").thenAccept(System.out::println);
     }
 
-    // onText()
-    // TODO handle exception
     public CompletionStage<?> onText(WebSocket webSocket, CharSequence data, boolean last) {
         String indented = data.toString();
         System.out.println(indented);

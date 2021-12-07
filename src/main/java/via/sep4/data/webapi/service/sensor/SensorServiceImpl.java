@@ -13,6 +13,7 @@ import via.sep4.data.webapi.util.SortByDate;
 
 @Service
 public class SensorServiceImpl implements SensorService {
+    
     @Autowired
     private SensorDataRepository sensorDataRepository;
 
@@ -21,7 +22,7 @@ public class SensorServiceImpl implements SensorService {
         try {
             return sensorDataRepository.findById(id);
         } catch (Exception e) {
-            throw new NotFoundException("Sensor repository not available.");
+            throw new NotFoundException("The item by " + id + " could not be found.", e);
         }
     }
 
@@ -50,8 +51,7 @@ public class SensorServiceImpl implements SensorService {
             Collections.sort(all, new SortByDate());
             return all;
         } catch (Exception e) {
-            throw new NotFoundException("Sensor repository not available.");
+            throw new NotFoundException("The dates are out of bounds.");
         }
-
     }
 }
