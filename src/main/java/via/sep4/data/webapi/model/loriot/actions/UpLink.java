@@ -1,5 +1,7 @@
 package via.sep4.data.webapi.model.loriot.actions;
 
+import via.sep4.data.webapi.util.Constants;
+
 public class UpLink {
     private String cmd;
     private String EUI;
@@ -10,8 +12,8 @@ public class UpLink {
     private String data;
 
     public UpLink(long ts, boolean ack, double fcnt, int port, String data) {
-        this.cmd = "rx";
-        this.EUI = "0004A30B00259D2C";
+        this.cmd = Constants.RECEIVE_COMMAND;
+        this.EUI = Constants.EUI;
         this.ts = ts;
         this.ack = ack;
         this.fcnt = fcnt;
