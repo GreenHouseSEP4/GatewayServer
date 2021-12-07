@@ -20,10 +20,6 @@ public class SensorData {
     @Column(name = "Date")
     private Date date;
 
-    @JsonProperty("time")
-    @Column(name = "Time")
-    private String time;
-
     @JsonProperty("humidity")
     @Column(name = "Humidity")
     private int humidity;
@@ -46,14 +42,6 @@ public class SensorData {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
     }
 
     public Date getDate() {
@@ -98,12 +86,13 @@ public class SensorData {
 
     @Override
     public String toString() {
-        return "ReadData [co2=" + co2 
-        + ", date=" + date 
-        + ", humidity=" + humidity 
-        + ", id=" + id 
-        + ", light=" + light
-        + ", temperature=" + temperature 
-        + ", time=" + time + "]";
+        return "SensorData{" +
+                "id=" + id +
+                ", date=" + date +
+                ", humidity=" + humidity +
+                ", temperature=" + temperature +
+                ", light=" + light +
+                ", co2=" + co2 +
+                '}';
     }
 }
