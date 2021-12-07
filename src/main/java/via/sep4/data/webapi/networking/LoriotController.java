@@ -13,6 +13,8 @@ import via.sep4.data.webapi.model.loriot.actions.UpLink;
 import via.sep4.data.webapi.service.sensor.SensorService;
 
 import java.beans.PropertyChangeEvent;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.Date;
 
 @Component
@@ -48,31 +50,30 @@ public class LoriotController {
 
     private SensorData processData(UpLink message) {
         SensorData data = new SensorData();
-        Iterable<String> result = Splitter.fixedLength(4).split(message.getData());
-        String[] parts = Iterables.toArray(result, String.class);
-
+        String[] parts = new String[5];
+        Matcher matcher = Pattern.compile("^(.{4})(.{2})(.{3})(.{4})(.{1})").matcher(message.getData());
+        if (matcher.matches()) {
+            for (int i = 0; i < matcher.groupCount(); i++) {
+                parts[i] = matcher.group(i + 1);
+            }
+        }
         int temp = 0;
         int hum = 0;
         int co2 = 0;
         int light = 0;
 
-        for (String part : parts) {
-            String tempString = part.substring(1);
-            switch (part.charAt(0)) {
-                case '1':
-                    hum = Integer.parseInt(tempString, 16);
-                    break;
-                case '2':
-                    co2 = Integer.parseInt(tempString, 16);
-                    break;
-                case '3':
-                    temp = Integer.parseInt(tempString, 16);
-                    break;
-                case '4':
-                    light = Integer.parseInt(tempString, 16);
-                    break;
+        for (int i = 0; i < parts.length - 1; i++) {
+            if (i == 0) {
+                temp = Integer.parseInt(parts[i], 16);
+            } else if (i == 1) {
+                hum = Integer.parseInt(parts[i], 16);
+            } else if (i == 2) {
+                co2 = Integer.parseInt(parts[i], 16);
+            } else {
+                light = Integer.parseInt(parts[i], 16);
             }
         }
+
         data.setHumidity(hum);
         data.setCo2(co2);
         data.setLight(light);
