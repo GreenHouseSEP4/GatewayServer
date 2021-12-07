@@ -79,7 +79,7 @@ public class LoriotController {
     }
 
     private Date processTimestamp(UpLink message) {
-        return new Date(message.getTs());
+        return new Date(message.getTs() + 3600000);
     }
 
     public void send(RemoteCommand command) {
