@@ -15,6 +15,7 @@ import via.sep4.data.webapi.service.sensor.SensorService;
 import java.beans.PropertyChangeEvent;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.Date;
 
 @Component
 public class LoriotController {
@@ -84,7 +85,12 @@ public class LoriotController {
         data.setCo2(co2);
         data.setLight(light);
         data.setTemperature(temp);
+        data.setDate(processTimestamp(message));
         return data;
+    }
+
+    private Date processTimestamp(UpLink message) {
+        return new Date(message.getTs());
     }
 
     public void send(RemoteCommand command) {
