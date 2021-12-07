@@ -18,8 +18,10 @@ public class RemoteServiceImpl implements RemoteService {
         switch(command) {
             case "activate":
                 deviceCommand = "1";
+                break;
             case "deactivate":
-                deviceCommand= "0";
+                deviceCommand = "0";
+                break;
             default:
                 deviceCommand = "2";
         }
