@@ -1,5 +1,6 @@
 package via.sep4.data.webapi.model.loriot.actions;
 
+import via.sep4.data.webapi.model.Device;
 import via.sep4.data.webapi.util.Constants;
 
 public class DownLink {
@@ -12,6 +13,13 @@ public class DownLink {
     public DownLink(int port, boolean confirmed, String data) {
         this.cmd = Constants.SEND_COMMAND;
         this.EUI = Constants.EUI;
+        this.port = port;
+        this.confirmed = confirmed;
+        this.data = data;
+    }
+    public DownLink(int port, boolean confirmed, String data, Device device) {
+        this.cmd = Constants.SEND_COMMAND;
+        this.EUI = device.getEUI();
         this.port = port;
         this.confirmed = confirmed;
         this.data = data;

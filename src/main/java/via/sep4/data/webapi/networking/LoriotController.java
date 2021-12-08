@@ -31,7 +31,7 @@ public class LoriotController {
         String receivedString = event.getNewValue().toString();
         System.out.println("Received data " + receivedString);
         UpLink message = gson.fromJson(receivedString, UpLink.class);
-        if (message.getCmd().equals(Constants.RECEIVE_COMMAND)) {}
+        if (message.getCmd().equals(Constants.RECEIVE_COMMAND))
             receiveMessage(message);
     }
 
