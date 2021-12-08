@@ -13,6 +13,10 @@ public class Device {
     @JsonProperty("eui")
     private String EUI;
 
+    @JsonProperty("location")
+    @Column(name = "Location")
+    private String location;
+
     @JsonProperty("minTemperature")
     @Column(name = "MinTemperature")
     private int minTemperature;
@@ -67,6 +71,14 @@ public class Device {
 
     public void setEUI(String EUI) {
         this.EUI = EUI;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public int getMinTemperature() {
