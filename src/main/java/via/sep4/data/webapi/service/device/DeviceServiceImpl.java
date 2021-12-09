@@ -1,6 +1,5 @@
 package via.sep4.data.webapi.service.device;
 
-import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import via.sep4.data.webapi.model.Device;
@@ -23,12 +22,15 @@ public class DeviceServiceImpl implements DeviceService{
     }
 
     @Override
-    public void deleteDeviceByEUI(String EUI) {
+    public Device deleteDeviceByEUI(String EUI) {
+        Device deviceToDelete = new Device();
         try {
+            deviceToDelete = deviceRepository.findDeviceByEUI(EUI);
             deviceRepository.deleteDeviceByEUI(EUI);
         } catch (Exception exception) {
             exception.printStackTrace();
         }
+        return deviceToDelete;
     }
 
     @Override
