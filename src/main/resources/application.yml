@@ -1,7 +1,7 @@
 server:
     port: 5000
 spring: 
-    datasource: 
+    datasource:
         url: jdbc:sqlserver://165.22.121.230;database=GreenHouseDB
         username: sa
         password: asdfasdfasdf
