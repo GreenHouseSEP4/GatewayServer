@@ -18,40 +18,44 @@ public class SensorServiceImpl implements SensorService {
     private SensorDataRepository sensorDataRepository;
 
     @Override
-    public SensorData findById(int id) throws Exception {
+    public SensorData findById(int id) {
         try {
             return sensorDataRepository.findById(id);
         } catch (Exception e) {
-            throw new NotFoundException("The item by " + id + " could not be found.", e);
+            e.printStackTrace();
+            throw new RuntimeException("The item by " + id + " could not be found.");
         }
     }
 
     @Override
-    public SensorData addMeasurement(SensorData data) throws Exception {
+    public SensorData addMeasurement(SensorData data) {
         try {
             return sensorDataRepository.save(data);
         } catch (Exception e) {
-            throw new NotFoundException("Sensor repository not available.");
+            e.printStackTrace();
+            throw new RuntimeException("Sensor repository not available.");
         }
     }
 
     @Override
-    public SensorData getLatestMeasurement() throws Exception {
+    public SensorData getLatestMeasurement() {
         try {
             return sensorDataRepository.findFirstByOrderByIdDesc();
         } catch (Exception e) {
-            throw new NotFoundException("Sensor repository not available.");
+            e.printStackTrace();
+            throw new RuntimeException("Sensor repository not available.");
         }
     }
 
     @Override
-    public List<SensorData> getPeriodicMeasurements(Date startDate, Date endDate) throws Exception {
+    public List<SensorData> getPeriodicMeasurements(Date startDate, Date endDate) {
         try {
             List<SensorData> all = sensorDataRepository.findAllByDateBetween(startDate, endDate);
             Collections.sort(all, new SortByDate());
             return all;
         } catch (Exception e) {
-            throw new NotFoundException("The dates are out of bounds.");
+            e.printStackTrace();
+            throw new RuntimeException("The dates are out of bounds.");
         }
     }
 }
