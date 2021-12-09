@@ -63,8 +63,8 @@ public class DeviceController {
     public ResponseEntity deleteDevice(@RequestHeader("api-key") String apiKey, @PathVariable String eui) {
         try {
             util.checkApi(apiKey);
-            Device deviceToDelete = deviceService.deleteDeviceByEUI(eui);
-            return new ResponseEntity<>("Successfully deleted:\n" + deviceToDelete, HttpStatus.OK);
+            deviceService.deleteDeviceByEUI(eui);
+            return new ResponseEntity<>("Successfully deleted:\n" + eui, HttpStatus.OK);
         }
         catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);

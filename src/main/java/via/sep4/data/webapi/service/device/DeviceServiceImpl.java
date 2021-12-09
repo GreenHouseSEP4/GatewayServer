@@ -22,15 +22,13 @@ public class DeviceServiceImpl implements DeviceService{
     }
 
     @Override
-    public Device deleteDeviceByEUI(String EUI) {
+    public void deleteDeviceByEUI(String EUI) {
         Device deviceToDelete = new Device();
         try {
-            deviceToDelete = deviceRepository.findDeviceByEUI(EUI);
             deviceRepository.deleteDeviceByEUI(EUI);
         } catch (Exception exception) {
             exception.printStackTrace();
         }
-        return deviceToDelete;
     }
 
     @Override
@@ -49,7 +47,7 @@ public class DeviceServiceImpl implements DeviceService{
             System.out.println(device.getEUI());
             deviceRepository.updateDeviceByEUI(device.getEUI(), device.getMinTemperature(), device.getMaxTemperature(), device.getMinHumidity(), device.getMaxHumidity(),
                     device.getMinCO2(), device.getMaxCO2(), device.getMinLight(), device.getMaxLight(), device.getTargetTemperature(), device.getTargetHumidity(),
-                    device.getTargetCO2(), device.getTargetLight());
+                    device.getTargetCO2(), device.getTargetLight(), device.getLocation());
         }
         catch (Exception e) {
             e.printStackTrace();
