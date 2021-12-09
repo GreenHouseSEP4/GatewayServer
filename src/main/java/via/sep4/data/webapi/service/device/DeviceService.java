@@ -7,4 +7,6 @@ public interface DeviceService {
     Device findDeviceByEUI(String EUI);
     void deleteDeviceByEUI(String EUI);
     void saveDeviceByEUI(Device device);
+
+    void updateDevice(Device device);
 }

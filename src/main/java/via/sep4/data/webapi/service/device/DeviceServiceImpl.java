@@ -17,7 +17,8 @@ public class DeviceServiceImpl implements DeviceService{
         try {
             return deviceRepository.findDeviceByEUI(EUI);
         } catch (Exception exception) {
-            throw new RuntimeException("Repository not available!", exception);
+            exception.printStackTrace();
+            throw new RuntimeException("EUI not found");
         }
     }
 
@@ -36,6 +37,21 @@ public class DeviceServiceImpl implements DeviceService{
             deviceRepository.save(device);
         } catch (Exception exception) {
             exception.printStackTrace();
+            throw new RuntimeException("Something went wrong");
+        }
+    }
+
+    @Override
+    public void updateDevice(Device device) {
+        try {
+            System.out.println(device.getEUI());
+            deviceRepository.updateDeviceByEUI(device.getEUI(), device.getMinTemperature(), device.getMaxTemperature(), device.getMinHumidity(), device.getMaxHumidity(),
+                    device.getMinCO2(), device.getMaxCO2(), device.getMinLight(), device.getMaxLight(), device.getTargetTemperature(), device.getTargetHumidity(),
+                    device.getTargetCO2(), device.getTargetLight());
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Device Not Found");
         }
     }
 }
