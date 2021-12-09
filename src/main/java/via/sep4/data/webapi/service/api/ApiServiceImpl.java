@@ -13,11 +13,12 @@ public class ApiServiceImpl implements ApiService {
     private ApiRepository apiRepository;
 
     @Override
-    public String findById(int id) throws NotFoundException {
+    public String findById(int id) {
         try {
             return apiRepository.findById(id).toString();
         } catch (Exception e) {
-            throw new NotFoundException();
+            e.printStackTrace();
+            throw new RuntimeException("API is not found");
         }
     }
 }

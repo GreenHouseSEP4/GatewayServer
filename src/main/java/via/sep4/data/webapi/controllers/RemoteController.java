@@ -32,11 +32,12 @@ public class RemoteController {
         }
     }
 
-    private String getKey() {
+   private String getKey() {
         String key = "";
         try {
             key = apiService.findById(1);
-        } catch (NotFoundException e) {
+            return key;
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return key;

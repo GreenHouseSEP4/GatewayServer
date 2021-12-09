@@ -32,7 +32,7 @@ public class RemoteServiceImpl implements RemoteService {
         try {
             loriotController.send(new RemoteCommand(deviceCommand, 2));
         } catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
     }
 }

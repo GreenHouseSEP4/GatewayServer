@@ -21,33 +21,26 @@ public class SensorController {
     private SensorService sensorService;
 
     @GetMapping("/latest")
-    public ResponseEntity<SensorData> getLatestMeasurement() {
+    public ResponseEntity getLatestMeasurement() {
         try {
             return new ResponseEntity<>(sensorService.getLatestMeasurement(), HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 
     @GetMapping("/periodic/start={start}&end={end}")
-    public ResponseEntity<List<SensorData>> getPeriodicMeasurements(@PathVariable String start, @PathVariable String end) {
-        Date startDate = null;
+    public ResponseEntity getPeriodicMeasurements(@PathVariable String start, @PathVariable String end) {
+        Date startDate;
+        Date endDate;
         SimpleDateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT);
         try {
             startDate = format.parse(start);
-        } catch (ParseException e1) {
-            e1.printStackTrace();
-        }
-        Date endDate = null;
-        try {
             endDate = format.parse(end);
-        } catch (ParseException e1) {
-            e1.printStackTrace();
-        }
-        try {
-            return new ResponseEntity<>(sensorService.getPeriodicMeasurements(startDate, endDate), HttpStatus.OK);
+            List<SensorData> sensorData = sensorService.getPeriodicMeasurements(startDate, endDate);
+            return new ResponseEntity<>(sensorData, HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 }
