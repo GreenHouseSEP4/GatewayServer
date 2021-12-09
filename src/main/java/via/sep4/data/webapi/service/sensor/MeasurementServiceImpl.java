@@ -28,7 +28,7 @@ public class MeasurementServiceImpl implements MeasurementService {
     @Override
     public SensorData getLatestMeasurement(String eui) {
         try {
-            return sensorDataRepository.findLatestByEUI(eui);
+            return sensorDataRepository.findFirstByEuiOrderByIdDesc(eui);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Sensor repository not available.");
@@ -38,7 +38,7 @@ public class MeasurementServiceImpl implements MeasurementService {
     @Override
     public List<SensorData> getPeriodicMeasurements(String eui, Date startDate, Date endDate) {
         try {
-            List<SensorData> all = sensorDataRepository.findByDateAndEUI(eui, startDate, endDate);
+            List<SensorData> all = sensorDataRepository.findByEuiAndDateBetween(eui, startDate, endDate);
             Collections.sort(all, new SortByDate());
             return all;
         } catch (Exception e) {

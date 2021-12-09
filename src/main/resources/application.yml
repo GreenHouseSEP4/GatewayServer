@@ -9,7 +9,10 @@ spring:
     jpa:
         show-sql: true
         # database-platform: org.hibernate.dialect.SQLServer2012Dialect
-        # hibernate:
+        properties:
+            hibernate:
+                jdbc:
+                    timezone: GMT+1
         #     ddl-auto: none
 springdoc:
     swagger-ui: 
