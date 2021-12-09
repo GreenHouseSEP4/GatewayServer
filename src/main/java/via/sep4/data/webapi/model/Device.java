@@ -176,4 +176,22 @@ public class Device {
     public void setTargetCO2(int targetCO2) {
         this.targetCO2 = targetCO2;
     }
+
+    @Override
+    public String toString() {
+        return "EUI: " + EUI + 
+            "Location: " + location + 
+            "Min Temperature: " + minTemperature +
+            "Max Temperature: " + maxTemperature +
+            "Target Temperature: " + targetTemperature +
+            "Min Humidity: " + minHumidity +
+            "Max Humidity: " + maxHumidity +
+            "Target Humidity: " + targetHumidity +
+            "Min CO2: " + minCO2 +
+            "Max CO2: " + maxCO2 +
+            "Target CO2: " + targetCO2 +
+            "Min Light: " + minLight +
+            "Max Light: " + maxLight +
+            "Target Light: " + targetLight; 
+    }
 }
