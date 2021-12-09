@@ -1,7 +1,6 @@
 package via.sep4.data.webapi.service.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import via.sep4.data.webapi.repository.ApiRepository;
@@ -18,7 +17,7 @@ public class ApiServiceImpl implements ApiService {
             return apiRepository.findById(id).toString();
         } catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException("API is not found");
+            throw new RuntimeException("API is not found!");
         }
     }
 }

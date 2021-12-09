@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import via.sep4.data.webapi.model.SensorData;
-import via.sep4.data.webapi.service.sensor.SensorService;
+import via.sep4.data.webapi.service.sensor.MeasurementService;
 import via.sep4.data.webapi.util.ApiKeyUtil;
 import via.sep4.data.webapi.util.Constants;
 
@@ -18,13 +18,13 @@ import via.sep4.data.webapi.util.Constants;
 @RequestMapping("/measurement")
 public class MeasurementController {
     @Autowired
-    private SensorService sensorService;
+    private MeasurementService sensorService;
 
     @Autowired
     private ApiKeyUtil util;
 
     @GetMapping("/{eui}/latest")
-    public ResponseEntity getLatestMeasurement(@RequestHeader("api-key") String apiKey, @RequestParam String eui) {
+    public ResponseEntity getLatestMeasurement(@RequestHeader("api-key") String apiKey, @PathVariable String eui) {
         try {
             util.checkApi(apiKey);
             return new ResponseEntity<>(sensorService.getLatestMeasurement(eui), HttpStatus.OK);
@@ -33,8 +33,8 @@ public class MeasurementController {
         }
     }
 
-    @GetMapping("/{eui}/periodic/start={start}&end={end}")
-    public ResponseEntity getPeriodicMeasurements(@RequestHeader("api-key") String apiKey, @RequestParam String eui, @PathVariable String start, @PathVariable String end) {
+    @GetMapping("/{eui}/periodic/{start}&{end}")
+    public ResponseEntity getPeriodicMeasurements(@RequestHeader("api-key") String apiKey, @PathVariable String eui, @RequestParam String start, @RequestParam String end) {
         Date startDate;
         Date endDate;
         SimpleDateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT);

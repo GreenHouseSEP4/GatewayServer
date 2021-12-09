@@ -10,7 +10,7 @@ import via.sep4.data.webapi.repository.SensorDataRepository;
 import via.sep4.data.webapi.util.SortByDate;
 
 @Service
-public class SensorServiceImpl implements SensorService {
+public class MeasurementServiceImpl implements MeasurementService {
     
     @Autowired
     private SensorDataRepository sensorDataRepository;

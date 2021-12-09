@@ -7,7 +7,7 @@ import via.sep4.data.webapi.model.loriot.actions.RemoteCommand;
 import via.sep4.data.webapi.model.loriot.actions.DownLink;
 import via.sep4.data.webapi.model.SensorData;
 import via.sep4.data.webapi.model.loriot.actions.UpLink;
-import via.sep4.data.webapi.service.sensor.SensorService;
+import via.sep4.data.webapi.service.sensor.MeasurementService;
 import via.sep4.data.webapi.util.Constants;
 
 import java.beans.PropertyChangeEvent;
@@ -18,10 +18,10 @@ import java.util.Date;
 @Component
 public class LoriotController {
     private Gson gson = new Gson();
-    private SensorService sensorService;
+    private MeasurementService sensorService;
     private final WebSocketClient webSocketClient;
 
-    public LoriotController(SensorService sensorService) {
+    public LoriotController(MeasurementService sensorService) {
         this.sensorService = sensorService;
         webSocketClient = new WebSocketClient();
         webSocketClient.addPropertyChangeListener("Receive data", this::receiveData);

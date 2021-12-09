@@ -1,6 +1,5 @@
 package via.sep4.data.webapi.model.loriot.actions;
 
-import via.sep4.data.webapi.model.Device;
 import via.sep4.data.webapi.util.Constants;
 
 public class DownLink {
