@@ -10,7 +10,6 @@ public class ApiKeyUtil {
     @Autowired
     private ApiService apiService;
 
-
     private String getKey() {
         String key = "";
         try {

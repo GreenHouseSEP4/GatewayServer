@@ -15,7 +15,7 @@ import via.sep4.data.webapi.util.ApiKeyUtil;
 import via.sep4.data.webapi.util.Constants;
 
 @RestController
-@RequestMapping("/measurement")
+@RequestMapping("/measurements")
 public class MeasurementController {
     @Autowired
     private MeasurementService sensorService;
