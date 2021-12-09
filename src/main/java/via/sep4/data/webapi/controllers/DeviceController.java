@@ -36,7 +36,7 @@ public class DeviceController {
         }
     }
 
-    @GetMapping
+    @GetMapping("/eui={eui}")
     public ResponseEntity getDevice(@RequestHeader("api-key") String apiKey, @RequestParam String eui) {
         try {
             util.checkApi(apiKey);
@@ -46,7 +46,6 @@ public class DeviceController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
-
 
     @PutMapping
     public ResponseEntity updateDevice(@RequestHeader("api-key") String apiKey, @RequestBody Device device) {
@@ -60,7 +59,7 @@ public class DeviceController {
         }
     }
 
-    @DeleteMapping
+    @DeleteMapping("/eui={eui}")
     public ResponseEntity deleteDevice(@RequestHeader("api-key") String apiKey, @RequestParam String eui) {
         try {
             util.checkApi(apiKey);
