@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 import via.sep4.data.webapi.model.loriot.actions.RemoteCommand;
 import via.sep4.data.webapi.model.loriot.actions.DownLink;
-import via.sep4.data.webapi.model.loriot.actions.SensorData;
+import via.sep4.data.webapi.model.SensorData;
 import via.sep4.data.webapi.model.loriot.actions.UpLink;
 import via.sep4.data.webapi.service.sensor.SensorService;
 import via.sep4.data.webapi.util.Constants;
@@ -76,6 +76,7 @@ public class LoriotController {
         data.setLight(light);
         data.setTemperature(temp);
         data.setDate(processTimestamp(message));
+        data.setEui(message.getEUI());
         return data;
     }
 
@@ -83,15 +84,15 @@ public class LoriotController {
         return new Date(message.getTs() + Constants.ONE_HOUR);
     }
 
-    public void send(RemoteCommand command) {
-        String data = processCommand(command);
+    public void send(String eui, RemoteCommand command) {
+        String data = processCommand(eui, command);
         webSocketClient.sendDownLink(data);
         System.out.println("Data: " + data);
     }
 
-    private String processCommand(RemoteCommand command) {
+    private String processCommand(String eui, RemoteCommand command) {
         String data = command.getValue();
-        DownLink message = new DownLink(command.getDestinationPort(), true, data);
+        DownLink message = new DownLink(eui, command.getDestinationPort(), true, data);
         return gson.toJson(message);
     }
 }

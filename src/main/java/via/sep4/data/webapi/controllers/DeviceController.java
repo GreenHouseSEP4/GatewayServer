@@ -36,7 +36,7 @@ public class DeviceController {
         }
     }
 
-    @GetMapping("/eui={eui}")
+    @GetMapping("/{eui}")
     public ResponseEntity getDevice(@RequestHeader("api-key") String apiKey, @RequestParam String eui) {
         try {
             util.checkApi(apiKey);
@@ -59,7 +59,7 @@ public class DeviceController {
         }
     }
 
-    @DeleteMapping("/eui={eui}")
+    @DeleteMapping("/{eui}")
     public ResponseEntity deleteDevice(@RequestHeader("api-key") String apiKey, @RequestParam String eui) {
         try {
             util.checkApi(apiKey);
