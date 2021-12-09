@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import via.sep4.data.webapi.service.api.ApiService;
+import via.sep4.data.webapi.service.device.DeviceService;
 import via.sep4.data.webapi.service.remote.RemoteService;
 import via.sep4.data.webapi.util.ApiKeyUtil;
 
@@ -22,13 +23,18 @@ public class RemoteController {
     private RemoteService remoteService;
 
     @Autowired
-   private ApiKeyUtil util;
+    private ApiKeyUtil util;
+
+    @Autowired
+    private DeviceService deviceService;
+
 
     @PostMapping
-    public ResponseEntity sendRemoteCommand(@RequestHeader("api-key") String apiKey, @RequestParam String command) {
+    public ResponseEntity sendRemoteCommand(@RequestHeader("api-key") String apiKey, @RequestParam String eui, @RequestParam String command) {
         try {
             util.checkApi(apiKey);
-            remoteService.sendCommand(command);
+            deviceService.findDeviceByEUI(eui);
+            remoteService.sendCommand(eui, command);
             return new ResponseEntity<>("Successful", HttpStatus.OK);
         }
         catch (Exception e) {

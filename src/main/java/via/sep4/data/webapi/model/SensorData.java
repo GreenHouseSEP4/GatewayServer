@@ -1,4 +1,4 @@
-package via.sep4.data.webapi.model.loriot.actions;
+package via.sep4.data.webapi.model;
 
 import java.util.Date;
 import javax.persistence.*;
@@ -13,6 +13,10 @@ public class SensorData {
     @Column(name = "Id")
     @JsonProperty("id")
     private int id;
+
+    @JsonProperty("eui")
+    @Column(name = "Eui")
+    private String eui;
 
     @JsonProperty("date")
     @Column(name = "Date")
@@ -98,10 +102,19 @@ public class SensorData {
         }
     }
 
+    public String getEui() {
+        return eui;
+    }
+
+    public void setEui(String eui) {
+        this.eui = eui;
+    }
+
     @Override
     public String toString() {
         return "SensorData{" +
                 "id=" + id +
+                ", EUI=" + eui +
                 ", date=" + date +
                 ", humidity=" + humidity +
                 ", temperature=" + temperature +

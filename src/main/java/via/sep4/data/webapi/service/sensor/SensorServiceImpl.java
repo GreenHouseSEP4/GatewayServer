@@ -1,13 +1,11 @@
 package via.sep4.data.webapi.service.sensor;
 
-import javassist.NotFoundException;
-
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import via.sep4.data.webapi.model.loriot.actions.SensorData;
+import via.sep4.data.webapi.model.SensorData;
 import via.sep4.data.webapi.repository.SensorDataRepository;
 import via.sep4.data.webapi.util.SortByDate;
 
@@ -16,16 +14,6 @@ public class SensorServiceImpl implements SensorService {
     
     @Autowired
     private SensorDataRepository sensorDataRepository;
-
-    @Override
-    public SensorData findById(int id) {
-        try {
-            return sensorDataRepository.findById(id);
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("The item by " + id + " could not be found.");
-        }
-    }
 
     @Override
     public SensorData addMeasurement(SensorData data) {
@@ -38,9 +26,9 @@ public class SensorServiceImpl implements SensorService {
     }
 
     @Override
-    public SensorData getLatestMeasurement() {
+    public SensorData getLatestMeasurement(String eui) {
         try {
-            return sensorDataRepository.findFirstByOrderByIdDesc();
+            return sensorDataRepository.findLatestByEUI(eui);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Sensor repository not available.");
@@ -48,9 +36,9 @@ public class SensorServiceImpl implements SensorService {
     }
 
     @Override
-    public List<SensorData> getPeriodicMeasurements(Date startDate, Date endDate) {
+    public List<SensorData> getPeriodicMeasurements(String eui, Date startDate, Date endDate) {
         try {
-            List<SensorData> all = sensorDataRepository.findAllByDateBetween(startDate, endDate);
+            List<SensorData> all = sensorDataRepository.findByDateAndEUI(eui, startDate, endDate);
             Collections.sort(all, new SortByDate());
             return all;
         } catch (Exception e) {

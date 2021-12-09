@@ -1,6 +1,6 @@
 package via.sep4.data.webapi.util;
 
-import via.sep4.data.webapi.model.loriot.actions.SensorData;
+import via.sep4.data.webapi.model.SensorData;
 
 import java.util.Comparator;
 

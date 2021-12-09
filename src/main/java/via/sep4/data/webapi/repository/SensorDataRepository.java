@@ -7,11 +7,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import org.springframework.stereotype.Repository;
-import via.sep4.data.webapi.model.loriot.actions.SensorData;
+import via.sep4.data.webapi.model.SensorData;
 @Repository
 public interface SensorDataRepository extends JpaRepository<SensorData, Integer> {
-    @Query("SELECT s FROM SensorData s WHERE s.id =:id")
-    SensorData findById(int id);
-    SensorData findFirstByOrderByIdDesc();
-    List<SensorData> findAllByDateBetween(Date startDate, Date endDate);
+
+    @Query("SELECT s FROM SensorData s where s.eui =:eui order by s.id desc")
+    SensorData findLatestByEUI(String eui);
+
+    @Query(value = "SELECT * FROM SensorData s WHERE s.date BETWEEN startDate AND endDate",
+    nativeQuery = true)
+    List<SensorData> findByDateAndEUI(String eui, Date startDate, Date endDate);
 }

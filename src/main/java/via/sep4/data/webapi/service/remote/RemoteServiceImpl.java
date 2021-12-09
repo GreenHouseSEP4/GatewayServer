@@ -14,7 +14,7 @@ public class RemoteServiceImpl implements RemoteService {
     private LoriotController loriotController;
     
     @Override
-    public void sendCommand(String command) {
+    public void sendCommand(String eui, String command) {
         String deviceCommand = "000";
         switch(command) {
             case Constants.ACTIVATE_COMMAND:
@@ -30,7 +30,7 @@ public class RemoteServiceImpl implements RemoteService {
         System.err.println(deviceCommand);
 
         try {
-            loriotController.send(new RemoteCommand(deviceCommand, 2));
+            loriotController.send(eui, new RemoteCommand(deviceCommand, 2));
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -22,8 +22,8 @@ public class ApiKeyUtil {
             return key;
         } catch (Exception e) {
             e.printStackTrace();
+            throw new RuntimeException("Cannot find the API KEY!");
         }
-        return key;
     }
 
     public boolean checkApi(String apiKey) {

@@ -10,26 +10,24 @@ public class DownLink {
     private boolean confirmed;
     private String data;
 
-    public DownLink(int port, boolean confirmed, String data) {
+    public DownLink(String EUI, int port, boolean confirmed, String data) {
         this.cmd = Constants.SEND_COMMAND;
-        this.EUI = Constants.EUI;
+        this.EUI = EUI;
         this.port = port;
         this.confirmed = confirmed;
         this.data = data;
     }
-    public DownLink(int port, boolean confirmed, String data, Device device) {
-        this.cmd = Constants.SEND_COMMAND;
-        this.EUI = device.getEUI();
-        this.port = port;
-        this.confirmed = confirmed;
-        this.data = data;
-    }
+
     public String getCmd() {
         return cmd;
     }
 
     public String getEUI() {
         return EUI;
+    }
+
+    public void setEUI(String EUI) {
+        this.EUI = EUI;
     }
 
     public int getPort() {

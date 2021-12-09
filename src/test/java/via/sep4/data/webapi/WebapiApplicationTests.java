@@ -15,7 +15,7 @@ import via.sep4.data.webapi.service.sensor.SensorService;
 @SpringBootTest
 class WebApiApplicationTests {
 
-    @Autowired
+  /*  @Autowired
     private WebApplicationContext wac;
 
     private MockMvc mvc;
@@ -33,4 +33,5 @@ class WebApiApplicationTests {
             e.printStackTrace();
         }
     }
+   */
 }

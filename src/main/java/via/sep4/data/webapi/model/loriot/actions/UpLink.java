@@ -11,9 +11,9 @@ public class UpLink {
     private int port;
     private String data;
 
-    public UpLink(long ts, boolean ack, double fcnt, int port, String data) {
+    public UpLink(String EUI, long ts, boolean ack, double fcnt, int port, String data) {
         this.cmd = Constants.RECEIVE_COMMAND;
-        this.EUI = Constants.EUI;
+        this.EUI = EUI;
         this.ts = ts;
         this.ack = ack;
         this.fcnt = fcnt;
@@ -27,6 +27,10 @@ public class UpLink {
 
     public String getEUI() {
         return EUI;
+    }
+
+    public void setEUI(String EUI) {
+        this.EUI = EUI;
     }
 
     public long getTs() {
