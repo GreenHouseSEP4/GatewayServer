@@ -40,7 +40,8 @@ public class DeviceController {
     public ResponseEntity getDevice(@RequestHeader("api-key") String apiKey, @PathVariable String eui) {
         try {
             util.checkApi(apiKey);
-           return new ResponseEntity<>(deviceService.findDeviceByEUI(eui), HttpStatus.OK);
+            Device device = deviceService.findDeviceByEUI(eui);
+            return new ResponseEntity<>(device, HttpStatus.OK);
         }
         catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
