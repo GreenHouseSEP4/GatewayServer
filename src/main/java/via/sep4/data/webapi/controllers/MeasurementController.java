@@ -12,29 +12,35 @@ import org.springframework.web.bind.annotation.*;
 
 import via.sep4.data.webapi.model.loriot.actions.SensorData;
 import via.sep4.data.webapi.service.sensor.SensorService;
+import via.sep4.data.webapi.util.ApiKeyUtil;
 import via.sep4.data.webapi.util.Constants;
 
 @RestController
-@RequestMapping("/sensor")
-public class SensorController {
+@RequestMapping("/measurement")
+public class MeasurementController {
     @Autowired
     private SensorService sensorService;
 
-    @GetMapping("/latest")
-    public ResponseEntity getLatestMeasurement() {
+    @Autowired
+    private ApiKeyUtil util;
+
+    @GetMapping("/eui={eui}/latest")
+    public ResponseEntity getLatestMeasurement(@RequestHeader("api-key") String apiKey, @RequestParam String eui) {
         try {
+            util.checkApi(apiKey);
             return new ResponseEntity<>(sensorService.getLatestMeasurement(), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 
-    @GetMapping("/periodic/start={start}&end={end}")
-    public ResponseEntity getPeriodicMeasurements(@PathVariable String start, @PathVariable String end) {
+    @GetMapping("/eui={eui}/periodic/start={start}&end={end}")
+    public ResponseEntity getPeriodicMeasurements(@RequestHeader("api-key") String apiKey, @RequestParam String eui, @PathVariable String start, @PathVariable String end) {
         Date startDate;
         Date endDate;
         SimpleDateFormat format = new SimpleDateFormat(Constants.DATE_FORMAT);
         try {
+            util.checkApi(apiKey);
             startDate = format.parse(start);
             endDate = format.parse(end);
             List<SensorData> sensorData = sensorService.getPeriodicMeasurements(startDate, endDate);
