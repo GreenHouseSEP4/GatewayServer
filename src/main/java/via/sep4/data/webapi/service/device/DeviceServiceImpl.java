@@ -23,7 +23,6 @@ public class DeviceServiceImpl implements DeviceService{
 
     @Override
     public void deleteDeviceByEUI(String EUI) {
-        Device deviceToDelete = new Device();
         try {
             deviceRepository.deleteDeviceByEUI(EUI);
         } catch (Exception exception) {
