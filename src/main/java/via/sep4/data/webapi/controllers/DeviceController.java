@@ -9,7 +9,7 @@ import via.sep4.data.webapi.service.device.DeviceService;
 import via.sep4.data.webapi.util.ApiKeyUtil;
 
 @RestController
-@RequestMapping("/device")
+@RequestMapping("/devices")
 public class DeviceController {
 
     @Autowired
@@ -26,7 +26,7 @@ public class DeviceController {
             Device checkDevice = deviceService.findDeviceByEUI(device.getEUI());
             if (!(device.equals(checkDevice))) {
                 deviceService.saveDeviceByEUI(device);
-                return new ResponseEntity<>("Device saved successfully:\n" + device, HttpStatus.OK);
+                return new ResponseEntity<>("Device saved successfully:\n" + device.toString(), HttpStatus.OK);
             } else {
                 return new ResponseEntity<>("Device already registered", HttpStatus.OK);
             }
@@ -52,7 +52,7 @@ public class DeviceController {
         try {
             util.checkApi(apiKey);
             deviceService.updateDevice(device);
-            return new ResponseEntity<>("Successfully updated:\n" + device, HttpStatus.OK);
+            return new ResponseEntity<>("Successfully updated:\n" + device.toString(), HttpStatus.OK);
         }
         catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
