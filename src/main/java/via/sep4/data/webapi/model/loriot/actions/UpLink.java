@@ -4,16 +4,16 @@ import via.sep4.data.webapi.util.Constants;
 
 public class UpLink {
     private String cmd;
-    private String EUI;
+    private String eui;
     private long ts;
     private boolean ack;
     private double fcnt;
     private int port;
     private String data;
 
-    public UpLink(String EUI, long ts, boolean ack, double fcnt, int port, String data) {
+    public UpLink(String eui, long ts, boolean ack, double fcnt, int port, String data) {
         this.cmd = Constants.RECEIVE_COMMAND;
-        this.EUI = EUI;
+        this.eui = eui;
         this.ts = ts;
         this.ack = ack;
         this.fcnt = fcnt;
@@ -25,12 +25,12 @@ public class UpLink {
         return cmd;
     }
 
-    public String getEUI() {
-        return EUI;
+    public String getEui() {
+        return eui;
     }
 
-    public void setEUI(String EUI) {
-        this.EUI = EUI;
+    public void setEui(String eui) {
+        this.eui = eui;
     }
 
     public long getTs() {
@@ -57,7 +57,7 @@ public class UpLink {
     public String toString() {
         return "UpLinkMessage{" +
                 "cmd='" + cmd + '\'' +
-                ", EUI='" + EUI + '\'' +
+                ", EUI='" + eui + '\'' +
                 ", ts=" + ts +
                 ", ack=" + ack +
                 ", fcnt=" + fcnt +
