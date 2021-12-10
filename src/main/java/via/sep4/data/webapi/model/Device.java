@@ -179,19 +179,19 @@ public class Device {
 
     @Override
     public String toString() {
-        return "EUI: " + EUI + 
-            "Location: " + location + 
-            "Min Temperature: " + minTemperature +
-            "Max Temperature: " + maxTemperature +
-            "Target Temperature: " + targetTemperature +
-            "Min Humidity: " + minHumidity +
-            "Max Humidity: " + maxHumidity +
-            "Target Humidity: " + targetHumidity +
-            "Min CO2: " + minCO2 +
-            "Max CO2: " + maxCO2 +
-            "Target CO2: " + targetCO2 +
-            "Min Light: " + minLight +
-            "Max Light: " + maxLight +
-            "Target Light: " + targetLight; 
+        return "EUI: " + EUI + "\n" +
+            "Location: " + location + "\n" +
+            "MinTemperature: " + minTemperature + "\n" +
+            "MaxTemperature: " + maxTemperature + "\n" +
+            "TargetTemperature: " + targetTemperature + "\n" +
+            "MinHumidity: " + minHumidity + "\n" +
+            "MaxHumidity: " + maxHumidity + "\n" +
+            "TargetHumidity: " + targetHumidity + "\n" +
+            "MinCO2: " + minCO2 + "\n" +
+            "MaxCO2: " + maxCO2 + "\n" +
+            "TargetCO2: " + targetCO2 + "\n" +
+            "MinLight: " + minLight + "\n" +
+            "MaxLight: " + maxLight + "\n" +
+            "TargetLight: " + targetLight; 
     }
 }

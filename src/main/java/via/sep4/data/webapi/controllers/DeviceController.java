@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import io.swagger.v3.core.util.Json;
 import via.sep4.data.webapi.model.Device;
 import via.sep4.data.webapi.service.device.DeviceService;
 import via.sep4.data.webapi.util.ApiKeyUtil;
@@ -26,9 +28,9 @@ public class DeviceController {
             Device checkDevice = deviceService.findDeviceByEUI(device.getEUI());
             if (!(device.equals(checkDevice))) {
                 deviceService.saveDeviceByEUI(device);
-                return new ResponseEntity<>("Device saved successfully:\n" + device.toString(), HttpStatus.OK);
+                return new ResponseEntity<>(Json.pretty(device), HttpStatus.OK);
             } else {
-                return new ResponseEntity<>("Device already registered", HttpStatus.OK);
+                return new ResponseEntity<>("Device is already registered!", HttpStatus.OK);
             }
         }
         catch (Exception e) {
@@ -44,7 +46,7 @@ public class DeviceController {
             return new ResponseEntity<>(device, HttpStatus.OK);
         }
         catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 
@@ -53,7 +55,7 @@ public class DeviceController {
         try {
             util.checkApi(apiKey);
             deviceService.updateDevice(device);
-            return new ResponseEntity<>("Successfully updated:\n" + device.toString(), HttpStatus.OK);
+            return new ResponseEntity<>(Json.pretty(device), HttpStatus.OK);
         }
         catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
@@ -65,7 +67,7 @@ public class DeviceController {
         try {
             util.checkApi(apiKey);
             deviceService.deleteDeviceByEUI(eui);
-            return new ResponseEntity<>("Successfully deleted:\n" + eui, HttpStatus.OK);
+            return new ResponseEntity<>("Successfully deleted: " + eui, HttpStatus.OK);
         }
         catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
