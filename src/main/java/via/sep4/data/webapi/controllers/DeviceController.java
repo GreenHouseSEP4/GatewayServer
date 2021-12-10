@@ -28,9 +28,9 @@ public class DeviceController {
             Device checkDevice = deviceService.findDeviceByEUI(device.getEUI());
             if (!(device.equals(checkDevice))) {
                 deviceService.saveDeviceByEUI(device);
-                return new ResponseEntity<>("Device saved successfully:\n" + Json.pretty(device), HttpStatus.OK);
+                return new ResponseEntity<>(Json.pretty(device), HttpStatus.OK);
             } else {
-                return new ResponseEntity<>("Device already registered", HttpStatus.OK);
+                return new ResponseEntity<>("Device is already registered!", HttpStatus.OK);
             }
         }
         catch (Exception e) {
@@ -46,7 +46,7 @@ public class DeviceController {
             return new ResponseEntity<>(device, HttpStatus.OK);
         }
         catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 
@@ -55,7 +55,7 @@ public class DeviceController {
         try {
             util.checkApi(apiKey);
             deviceService.updateDevice(device);
-            return new ResponseEntity<>("Successfully updated:\n" + Json.pretty(device), HttpStatus.OK);
+            return new ResponseEntity<>(Json.pretty(device), HttpStatus.OK);
         }
         catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
@@ -67,7 +67,7 @@ public class DeviceController {
         try {
             util.checkApi(apiKey);
             deviceService.deleteDeviceByEUI(eui);
-            return new ResponseEntity<>("Successfully deleted:\n" + eui, HttpStatus.OK);
+            return new ResponseEntity<>("Successfully deleted: " + eui, HttpStatus.OK);
         }
         catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
