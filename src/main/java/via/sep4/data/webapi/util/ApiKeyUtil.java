@@ -17,7 +17,7 @@ public class ApiKeyUtil {
             return key;
         } catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException("Cannot find the API-key!");
+            throw new RuntimeException("Cannot find the API key!");
         }
     }
 
@@ -26,7 +26,7 @@ public class ApiKeyUtil {
             return true;
         }
         else {
-           throw new RuntimeException("Wrong API-key!");
+           throw new RuntimeException("Wrong API key!");
         }
     }
 }
