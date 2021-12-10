@@ -43,7 +43,6 @@ public class DeviceServiceImpl implements DeviceService{
     @Override
     public void updateDevice(Device device) {
         try {
-            System.out.println(device.getEUI());
             deviceRepository.updateDeviceByEUI(device.getEUI(), device.getMinTemperature(), device.getMaxTemperature(), device.getMinHumidity(), device.getMaxHumidity(),
                     device.getMinCO2(), device.getMaxCO2(), device.getMinLight(), device.getMaxLight(), device.getTargetTemperature(), device.getTargetHumidity(),
                     device.getTargetCO2(), device.getTargetLight(), device.getLocation());

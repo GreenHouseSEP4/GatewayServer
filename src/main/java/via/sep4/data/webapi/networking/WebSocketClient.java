@@ -12,7 +12,12 @@ import java.nio.ByteBuffer;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class WebSocketClient implements WebSocket.Listener, PropertyChangeSubject {
+
+    private static final Logger logger = LoggerFactory.getLogger(WebSocketClient.class);
 
     private WebSocket server = null;
     private PropertyChangeSupport support = new PropertyChangeSupport(this);
@@ -28,43 +33,51 @@ public class WebSocketClient implements WebSocket.Listener, PropertyChangeSubjec
         server = ws.join();
     }
 
+    @Override
     public void onOpen(WebSocket webSocket) {
         webSocket.request(1);
-        System.out.println("WebSocket Listener has been opened for requests.");
+        logger.info("WebSocket Listener has been opened for requests.");
     }
 
+    @Override
     public void onError(WebSocket webSocket, Throwable error) {
-        System.out.println("A " + error.getCause() + " exception was thrown.");
-        System.out.println("Message: " + error.getLocalizedMessage());
+        logger.error("A {} exception was thrown.", error.getCause(), error);
+        logger.info("Message: {}", error.getLocalizedMessage());
         webSocket.abort();
     }
 
+    @Override
     public CompletionStage<?> onClose(WebSocket webSocket, int statusCode, String reason) {
-        System.out.println("WebSocket closed!");
-        System.out.println("Status:" + statusCode + " Reason: " + reason);
-        return new CompletableFuture().completedFuture("onClose() completed.").thenAccept(System.out::println);
+        logger.warn("WebSocket closed!");
+        logger.debug("Status: {} Reason: {}", statusCode, reason);
+        return CompletableFuture.completedFuture("onClose() completed.").thenAccept(System.out::println);
     }
 
+    @Override
     public CompletionStage<?> onPing(WebSocket webSocket, ByteBuffer message) {
         webSocket.request(1);
-        System.out.println("Ping: Client ---> Server");
-        System.out.println(message.asCharBuffer().toString());
-        return new CompletableFuture().completedFuture("Ping completed.").thenAccept(System.out::println);
+        logger.info("Ping: Client ---> Server");
+        String msg = message.asCharBuffer().toString();
+        logger.debug(msg);
+        return CompletableFuture.completedFuture("Ping completed.").thenAccept(System.out::println);
     }
 
+    @Override
     public CompletionStage<?> onPong(WebSocket webSocket, ByteBuffer message) {
         webSocket.request(1);
-        System.out.println("Pong: Client ---> Server");
-        System.out.println(message.asCharBuffer().toString());
-        return new CompletableFuture().completedFuture("Pong completed.").thenAccept(System.out::println);
+        logger.info("Pong: Client ---> Server");
+        String msg = message.asCharBuffer().toString();
+        logger.debug(msg);
+        return CompletableFuture.completedFuture("Pong completed.").thenAccept(System.out::println);
     }
 
+    @Override
     public CompletionStage<?> onText(WebSocket webSocket, CharSequence data, boolean last) {
         String indented = data.toString();
-        System.out.println(indented);
+        logger.info(indented);
         support.firePropertyChange("Receive data", null, indented);
         webSocket.request(1);
-        return new CompletableFuture().completedFuture("onText() completed.").thenAccept(System.out::println);
+        return CompletableFuture.completedFuture("Data received successfully.").thenAccept(System.out::println);
     }
 
     @Override

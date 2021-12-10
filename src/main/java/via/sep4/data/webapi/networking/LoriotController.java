@@ -1,6 +1,9 @@
 package via.sep4.data.webapi.networking;
 
 import com.google.gson.Gson;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import via.sep4.data.webapi.model.loriot.actions.RemoteCommand;
@@ -17,8 +20,13 @@ import java.util.Date;
 
 @Component
 public class LoriotController {
+    
+    private static final Logger logger = LoggerFactory.getLogger(LoriotController.class);
+    
     private Gson gson = new Gson();
+    
     private MeasurementService sensorService;
+    
     private final WebSocketClient webSocketClient;
 
     public LoriotController(MeasurementService sensorService) {
@@ -29,7 +37,7 @@ public class LoriotController {
 
     public void receiveData(PropertyChangeEvent event) {
         String receivedString = event.getNewValue().toString();
-        System.out.println("Received data " + receivedString);
+        logger.info("Received data {}", receivedString);
         UpLink message = gson.fromJson(receivedString, UpLink.class);
         if (message.getCmd().equals(Constants.RECEIVE_COMMAND))
             receiveMessage(message);
@@ -37,7 +45,7 @@ public class LoriotController {
 
     private void receiveMessage(UpLink message) {
         SensorData data = processData(message);
-        System.out.println("Received message: " + data);
+        logger.info("Received message: {}", data);
         try {
             sensorService.addMeasurement(data);
         } catch (Exception e) {
@@ -48,7 +56,7 @@ public class LoriotController {
     private SensorData processData(UpLink message) {
         SensorData data = new SensorData();
         String[] parts = new String[5];
-        Matcher matcher = Pattern.compile("^(.{4})(.{2})(.{3})(.{4})(.{1})").matcher(message.getData());
+        Matcher matcher = Pattern.compile(Constants.MESSAGE_REGEX).matcher(message.getData());
         if (matcher.matches()) {
             for (int i = 0; i < matcher.groupCount(); i++) {
                 parts[i] = matcher.group(i + 1);
@@ -76,7 +84,7 @@ public class LoriotController {
         data.setLight(light);
         data.setTemperature(temp);
         data.setDate(processTimestamp(message));
-        data.setEui(message.getEUI());
+        data.setEui(message.getEui());
         return data;
     }
 
@@ -87,7 +95,7 @@ public class LoriotController {
     public void send(String eui, RemoteCommand command) {
         String data = processCommand(eui, command);
         webSocketClient.sendDownLink(data);
-        System.out.println("Data: " + data);
+        logger.info("Data: {}", data);
     }
 
     private String processCommand(String eui, RemoteCommand command) {
