@@ -33,7 +33,7 @@ public class MeasurementController {
         }
     }
 
-    @GetMapping("/{eui}/periodic/{start}&{end}")
+    @GetMapping("/{eui}/periodic")
     public ResponseEntity getPeriodicMeasurements(@RequestHeader("api-key") String apiKey, @PathVariable String eui, @RequestParam String start, @RequestParam String end) {
         Date startDate;
         Date endDate;
