@@ -29,7 +29,7 @@ public class RemoteController {
     private DeviceService deviceService;
 
 
-    @PostMapping("/window")
+    @PostMapping("/{eui}/window")
     public ResponseEntity setWindowValue(@RequestHeader("api-key") String apiKey, @PathVariable String eui, @RequestParam int commandPercentage) {
         try {
             util.checkApi(apiKey);
@@ -40,5 +40,33 @@ public class RemoteController {
         catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
+    }
+
+    @PostMapping("/{eui}/water")
+    public ResponseEntity setWaterValue(@RequestHeader("api-key") String apiKey, @PathVariable String eui, @RequestParam int waterValue)
+    {
+        try {
+            util.checkApi(apiKey);
+            Device device = deviceService.findDeviceByEUI(eui);
+            remoteService.setWater(device.getEUI(), waterValue);
+            return new ResponseEntity<>("Successful", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+
+    }
+
+    @PostMapping("/{eui}/light")
+    public ResponseEntity setLightValue(@RequestHeader("api-key") String apiKey, @PathVariable String eui, @RequestParam int lightValue)
+    {
+        try {
+            util.checkApi(apiKey);
+            Device device = deviceService.findDeviceByEUI(eui);
+            remoteService.setLight(device.getEUI(), lightValue);
+            return new ResponseEntity<>("Successful", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+
     }
 }
