@@ -36,10 +36,9 @@ public class DeviceController {
                 return new ResponseEntity<>(Json.pretty(device), HttpStatus.OK);
             } else {
                 logger.error("Device already exists: {}", device);
-                return new ResponseEntity<>("Device is already registered!", HttpStatus.OK);
+                return new ResponseEntity<>("Device is already registered!", HttpStatus.FORBIDDEN);
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             logger.warn("Bad request, device not created!");
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
@@ -50,12 +49,16 @@ public class DeviceController {
         try {
             util.checkApi(apiKey);
             Device device = deviceService.findDeviceByEUI(eui);
-            logger.info("Device found: {}", device);
-            return new ResponseEntity<>(device, HttpStatus.OK);
-        }
-        catch (Exception e) {
-            logger.warn("Bad request, device not found!");
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+            if (device.getEUI().equals(eui)) {
+                logger.info("Device found: {}", device);
+                return new ResponseEntity<>(device, HttpStatus.OK);
+            } else {
+                logger.error("Device not found");
+                return new ResponseEntity<>("Device does not exist", HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            logger.warn("Bad request");
+            return new ResponseEntity<>("Bad request", HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -63,13 +66,17 @@ public class DeviceController {
     public ResponseEntity updateDevice(@RequestHeader("api-key") String apiKey, @RequestBody Device device) {
         try {
             util.checkApi(apiKey);
-            deviceService.updateDevice(device);
-            logger.info("Device updated: {}", device);
-            return new ResponseEntity<>(Json.pretty(device), HttpStatus.OK);
-        }
-        catch (Exception e) {
+            Device deviceFound = deviceService.findDeviceByEUI(device.getEUI());
+            if (deviceFound != null) {
+                deviceService.updateDevice(deviceFound);
+                logger.info("Device updated: {}", device);
+                return new ResponseEntity<>(Json.pretty(device), HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("Cannot find device with eui", HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
             logger.warn("Bad request, device not updated!");
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -77,11 +84,15 @@ public class DeviceController {
     public ResponseEntity deleteDevice(@RequestHeader("api-key") String apiKey, @PathVariable String eui) {
         try {
             util.checkApi(apiKey);
-            deviceService.deleteDeviceByEUI(eui);
-            logger.info("Device deleted: {}", deviceService.findDeviceByEUI(eui));
-            return new ResponseEntity<>("Successfully deleted: " + eui, HttpStatus.OK);
-        }
-        catch (Exception e) {
+            Device deviceFound = deviceService.findDeviceByEUI(eui);
+            if (deviceFound != null) {
+                deviceService.deleteDeviceByEUI(eui);
+                logger.info("Device deleted: {}", deviceService.findDeviceByEUI(eui));
+                return new ResponseEntity<>("Successfully deleted: " + eui, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("Cannot find device with eui", HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
             logger.warn("Bad request, device not found!");
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
