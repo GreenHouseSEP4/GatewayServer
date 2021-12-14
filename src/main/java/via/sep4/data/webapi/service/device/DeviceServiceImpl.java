@@ -1,7 +1,9 @@
 package via.sep4.data.webapi.service.device;
 
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import via.sep4.data.webapi.model.Device;
 import via.sep4.data.webapi.repository.DeviceRepository;
 
@@ -12,12 +14,11 @@ public class DeviceServiceImpl implements DeviceService{
     private DeviceRepository deviceRepository;
 
     @Override
-    public Device findDeviceByEUI(String EUI) {
+    public Device findDeviceByEUI(String EUI) throws NotFoundException {
         try {
             return deviceRepository.findDeviceByEUI(EUI);
-        } catch (Exception exception) {
-            exception.printStackTrace();
-            throw new RuntimeException("EUI not found");
+        } catch (Exception e) {
+            throw new NotFoundException("Device NOT FOUND");
         }
     }
 

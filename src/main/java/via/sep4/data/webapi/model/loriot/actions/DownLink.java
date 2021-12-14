@@ -4,14 +4,14 @@ import via.sep4.data.webapi.util.Constants;
 
 public class DownLink {
     private String cmd;
-    private String eui;
+    private String EUI;
     private int port;
     private boolean confirmed;
     private String data;
 
     public DownLink(String eui, int port, boolean confirmed, String data) {
         this.cmd = Constants.SEND_COMMAND;
-        this.eui = eui;
+        this.EUI = eui;
         this.port = port;
         this.confirmed = confirmed;
         this.data = data;
@@ -21,12 +21,12 @@ public class DownLink {
         return cmd;
     }
 
-    public String getEui() {
-        return eui;
+    public String getEUI() {
+        return EUI;
     }
 
-    public void setEui(String eui) {
-        this.eui = eui;
+    public void setEUI(String EUI) {
+        this.EUI = EUI;
     }
 
     public int getPort() {
@@ -45,7 +45,7 @@ public class DownLink {
     public String toString() {
         return "DownLinkMessage{" +
                 "cmd='" + cmd + '\'' +
-                ", EUI='" + eui + '\'' +
+                ", EUI='" + EUI + '\'' +
                 ", port=" + port +
                 ", confirmed=" + confirmed +
                 ", data='" + data + '\'' +

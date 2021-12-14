@@ -10,7 +10,7 @@ import via.sep4.data.webapi.model.loriot.actions.RemoteCommand;
 import via.sep4.data.webapi.model.loriot.actions.DownLink;
 import via.sep4.data.webapi.model.SensorData;
 import via.sep4.data.webapi.model.loriot.actions.UpLink;
-import via.sep4.data.webapi.service.sensor.MeasurementService;
+import via.sep4.data.webapi.service.measurement.MeasurementService;
 import via.sep4.data.webapi.util.Constants;
 
 import java.beans.PropertyChangeEvent;
@@ -92,15 +92,16 @@ public class LoriotController {
         return new Date(message.getTs() + Constants.ONE_HOUR);
     }
 
-    public void send(String eui, RemoteCommand command) {
+    public void sendRemoteCommand(String eui, RemoteCommand command) {
         String data = processCommand(eui, command);
         webSocketClient.sendDownLink(data);
         logger.info("Data: {}", data);
     }
 
     private String processCommand(String eui, RemoteCommand command) {
-        String data = command.getValue();
-        DownLink message = new DownLink(eui, command.getDestinationPort(), true, data);
+        int data = command.getValue();
+        String value = String.valueOf(data);
+        DownLink message = new DownLink(eui, command.getDestinationPort(), true, value);
         return gson.toJson(message);
     }
 }

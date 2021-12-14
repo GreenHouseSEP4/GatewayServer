@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import via.sep4.data.webapi.model.SensorData;
-import via.sep4.data.webapi.service.sensor.MeasurementService;
+import via.sep4.data.webapi.service.measurement.MeasurementService;
 import via.sep4.data.webapi.util.ApiKeyUtil;
 import via.sep4.data.webapi.util.Constants;
 

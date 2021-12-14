@@ -1,4 +1,4 @@
-package via.sep4.data.webapi.service.sensor;
+package via.sep4.data.webapi.service.measurement;
 
 import java.util.Date;
 import java.util.List;
