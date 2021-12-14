@@ -99,8 +99,9 @@ public class LoriotController {
     }
 
     private String processCommand(String eui, RemoteCommand command) {
-        String data = command.getValue();
-        DownLink message = new DownLink(eui, command.getDestinationPort(), true, data);
+        int data = command.getValue();
+        String value = String.valueOf(data);
+        DownLink message = new DownLink(eui, command.getDestinationPort(), true, value);
         return gson.toJson(message);
     }
 }
