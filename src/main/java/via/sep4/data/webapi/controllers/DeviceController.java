@@ -52,11 +52,15 @@ public class DeviceController {
             }
             util.checkApi(apiKey);
             Device device = deviceService.findDeviceByEUI(eui);
-            logger.info("Device found: {}", device);
-            return new ResponseEntity<>(Json.pretty(device), HttpStatus.OK);
+            if (device != null) {
+                logger.info("Device found: {}", device);
+                return new ResponseEntity<>(Json.pretty(device), HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("Device is not found", HttpStatus.NOT_FOUND);
+            }
         } catch (Exception e) {
             logger.warn("Bad request");
-            return new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Bad request", HttpStatus.BAD_REQUEST);
         }
     }
 
