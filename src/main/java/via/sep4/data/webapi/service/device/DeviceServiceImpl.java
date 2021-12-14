@@ -8,7 +8,7 @@ import via.sep4.data.webapi.model.Device;
 import via.sep4.data.webapi.repository.DeviceRepository;
 
 @Service
-public class DeviceServiceImpl implements DeviceService{
+public class DeviceServiceImpl implements DeviceService {
 
     @Autowired
     private DeviceRepository deviceRepository;
@@ -23,18 +23,12 @@ public class DeviceServiceImpl implements DeviceService{
     }
 
     @Override
-    public void deleteDeviceByEUI(String EUI) {
+    public Device deleteDeviceByEUI(String EUI) {
         try {
+            Device deviceToReturn = findDeviceByEUI(EUI);
             deviceRepository.deleteDeviceByEUI(EUI);
-        } catch (Exception exception) {
-            exception.printStackTrace();
-        }
-    }
+            return deviceToReturn;
 
-    @Override
-    public void saveDeviceByEUI(Device device) {
-        try {
-            deviceRepository.save(device);
         } catch (Exception exception) {
             exception.printStackTrace();
             throw new RuntimeException("Something went wrong");
@@ -42,13 +36,24 @@ public class DeviceServiceImpl implements DeviceService{
     }
 
     @Override
-    public void updateDevice(Device device) {
+    public Device saveDeviceByEUI(Device device) {
+        try {
+            deviceRepository.save(device);
+            return device;
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            throw new RuntimeException("Something went wrong");
+        }
+    }
+
+    @Override
+    public Device updateDevice(Device device) {
         try {
             deviceRepository.updateDeviceByEUI(device.getEUI(), device.getMinTemperature(), device.getMaxTemperature(), device.getMinHumidity(), device.getMaxHumidity(),
                     device.getMinCO2(), device.getMaxCO2(), device.getMinLight(), device.getMaxLight(), device.getTargetTemperature(), device.getTargetHumidity(),
                     device.getTargetCO2(), device.getTargetLight(), device.getLocation());
-        }
-        catch (Exception e) {
+            return device;
+        } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Device Not Found");
         }
