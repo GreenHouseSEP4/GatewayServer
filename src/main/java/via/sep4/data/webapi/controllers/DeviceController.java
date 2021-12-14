@@ -53,7 +53,7 @@ public class DeviceController {
             util.checkApi(apiKey);
             Device device = deviceService.findDeviceByEUI(eui);
             logger.info("Device found: {}", device);
-            return new ResponseEntity<>(device, HttpStatus.OK);
+            return new ResponseEntity<>(Json.pretty(device), HttpStatus.OK);
         } catch (Exception e) {
             logger.warn("Bad request");
             return new ResponseEntity<>("Not found", HttpStatus.NOT_FOUND);
@@ -66,9 +66,9 @@ public class DeviceController {
             util.checkApi(apiKey);
             Device deviceFound = deviceService.findDeviceByEUI(device.getEUI());
             if (deviceFound != null) {
-                deviceService.updateDevice(deviceFound);
+                Device deviceUpdated = deviceService.updateDevice(deviceFound);
                 logger.info("Device updated: {}", device);
-                return new ResponseEntity<>(Json.pretty(device), HttpStatus.OK);
+                return new ResponseEntity<>(Json.pretty(deviceUpdated), HttpStatus.OK);
             } else {
                 return new ResponseEntity<>("Cannot find device with eui", HttpStatus.NOT_FOUND);
             }
@@ -84,9 +84,9 @@ public class DeviceController {
             util.checkApi(apiKey);
             Device deviceFound = deviceService.findDeviceByEUI(eui);
             if (deviceFound != null) {
-                deviceService.deleteDeviceByEUI(eui);
+                Device deviceDeleted = deviceService.deleteDeviceByEUI(eui);
                 logger.info("Device deleted: {}", deviceService.findDeviceByEUI(eui));
-                return new ResponseEntity<>("Successfully deleted: " + eui, HttpStatus.OK);
+                return new ResponseEntity<>(Json.pretty(deviceDeleted) + eui, HttpStatus.OK);
             } else {
                 return new ResponseEntity<>("Cannot find device with eui", HttpStatus.NOT_FOUND);
             }

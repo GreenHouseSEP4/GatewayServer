@@ -5,7 +5,7 @@ import via.sep4.data.webapi.model.Device;
 
 public interface DeviceService {
     Device findDeviceByEUI(String EUI) throws NotFoundException;
-    void deleteDeviceByEUI(String EUI);
-    void saveDeviceByEUI(Device device);
-    void updateDevice(Device device);
+    Device deleteDeviceByEUI(String EUI);
+    Device saveDeviceByEUI(Device device);
+    Device updateDevice(Device device);
 }
