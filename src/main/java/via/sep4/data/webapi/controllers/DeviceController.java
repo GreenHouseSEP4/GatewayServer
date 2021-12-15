@@ -11,6 +11,7 @@ import io.swagger.v3.core.util.Json;
 import via.sep4.data.webapi.model.Device;
 import via.sep4.data.webapi.service.device.DeviceService;
 import via.sep4.data.webapi.util.ApiKeyUtil;
+import via.sep4.data.webapi.util.Constants;
 
 @RestController
 @RequestMapping("/devices")
@@ -47,7 +48,7 @@ public class DeviceController {
     @GetMapping("/{eui}")
     public ResponseEntity getDevice(@RequestHeader("api-key") String apiKey, @PathVariable String eui) {
         try {
-            if (eui.length() != 16) {
+            if (eui.length() != Constants.EUI_LENGTH) {
                 return new ResponseEntity<>("Device eui needs to be 16 digits", HttpStatus.BAD_REQUEST);
             }
             util.checkApi(apiKey);
@@ -70,7 +71,7 @@ public class DeviceController {
             util.checkApi(apiKey);
             Device deviceFound = deviceService.findDeviceByEUI(device.getEUI());
             if (deviceFound != null) {
-                Device deviceUpdated = deviceService.updateDevice(deviceFound);
+                Device deviceUpdated = deviceService.updateDevice(device);
                 logger.info("Device updated: {}", device);
                 return new ResponseEntity<>(Json.pretty(deviceUpdated), HttpStatus.OK);
             } else {

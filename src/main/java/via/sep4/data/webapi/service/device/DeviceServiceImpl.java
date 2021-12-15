@@ -1,14 +1,17 @@
 package via.sep4.data.webapi.service.device;
 
 import javassist.NotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 import via.sep4.data.webapi.model.Device;
+import via.sep4.data.webapi.networking.LoriotController;
 import via.sep4.data.webapi.repository.DeviceRepository;
 
 @Service
 public class DeviceServiceImpl implements DeviceService {
+    private static final Logger logger = LoggerFactory.getLogger(LoriotController.class);
 
     @Autowired
     private DeviceRepository deviceRepository;
@@ -31,7 +34,8 @@ public class DeviceServiceImpl implements DeviceService {
 
         } catch (Exception exception) {
             exception.printStackTrace();
-            throw new RuntimeException("Something went wrong");
+            logger.error("Device could not be found");
+            return null;
         }
     }
 
@@ -42,7 +46,8 @@ public class DeviceServiceImpl implements DeviceService {
             return device;
         } catch (Exception exception) {
             exception.printStackTrace();
-            throw new RuntimeException("Something went wrong");
+            logger.error("Device could not be saved");
+            return null;
         }
     }
 
@@ -55,7 +60,8 @@ public class DeviceServiceImpl implements DeviceService {
             return device;
         } catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException("Device Not Found");
+            logger.error("Device could not be update");
+            return null;
         }
     }
 }
