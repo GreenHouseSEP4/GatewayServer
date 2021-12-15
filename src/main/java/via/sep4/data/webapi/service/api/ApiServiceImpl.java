@@ -1,5 +1,6 @@
 package via.sep4.data.webapi.service.api;
 
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,12 +13,12 @@ public class ApiServiceImpl implements ApiService {
     private ApiRepository apiRepository;
 
     @Override
-    public String findById(int id) {
+    public String findById(int id) throws NotFoundException {
         try {
             return apiRepository.findById(id).toString();
         } catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException("API is not found!");
+            throw new NotFoundException("API key not found");
         }
     }
 }

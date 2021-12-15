@@ -22,11 +22,8 @@ import java.util.Date;
 public class LoriotController {
     
     private static final Logger logger = LoggerFactory.getLogger(LoriotController.class);
-    
     private Gson gson = new Gson();
-    
     private MeasurementService sensorService;
-    
     private final WebSocketClient webSocketClient;
 
     public LoriotController(MeasurementService sensorService) {
@@ -49,6 +46,7 @@ public class LoriotController {
         try {
             sensorService.addMeasurement(data);
         } catch (Exception e) {
+            logger.info("Data could not be processed");
             e.printStackTrace();
         }
     }
