@@ -9,4 +9,5 @@ public class Constants {
     public static final String DEACTIVATE_COMMAND = "deactivate";
     public static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
     public static final String MESSAGE_REGEX = "^(.{4})(.{2})(.{3})(.{4})(.{1})";
+    public static final int EUI_LENGTH = 16;
 }

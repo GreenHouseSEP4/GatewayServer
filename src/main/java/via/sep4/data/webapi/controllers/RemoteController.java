@@ -36,15 +36,13 @@ public class RemoteController {
             Device device = deviceService.findDeviceByEUI(eui);
             remoteService.setWindow(device.getEUI(), commandPercentage);
             return new ResponseEntity<>("Successful", HttpStatus.OK);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 
     @PostMapping("/{eui}/water")
-    public ResponseEntity setWaterValue(@RequestHeader("api-key") String apiKey, @PathVariable String eui, @RequestParam int waterValue)
-    {
+    public ResponseEntity setWaterValue(@RequestHeader("api-key") String apiKey, @PathVariable String eui, @RequestParam int waterValue) {
         try {
             util.checkApi(apiKey);
             Device device = deviceService.findDeviceByEUI(eui);
@@ -57,8 +55,7 @@ public class RemoteController {
     }
 
     @PostMapping("/{eui}/light")
-    public ResponseEntity setLightValue(@RequestHeader("api-key") String apiKey, @PathVariable String eui, @RequestParam int lightValue)
-    {
+    public ResponseEntity setLightValue(@RequestHeader("api-key") String apiKey, @PathVariable String eui, @RequestParam int lightValue) {
         try {
             util.checkApi(apiKey);
             Device device = deviceService.findDeviceByEUI(eui);
