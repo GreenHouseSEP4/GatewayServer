@@ -1,4 +1,4 @@
-package via.sep4.data.webapi.model.loriot.actions;
+package via.sep4.data.webapi.model.loriot;
 
 import via.sep4.data.webapi.util.Constants;
 
@@ -11,6 +11,9 @@ public class UpLink {
     private int port;
     private String data;
 
+    /**
+     * This model is for the data that are received from the Loriot Network.
+     */
     public UpLink(String eui, long ts, boolean ack, double fcnt, int port, String data) {
         this.cmd = Constants.RECEIVE_COMMAND;
         this.eui = eui;

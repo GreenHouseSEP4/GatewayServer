@@ -10,13 +10,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Operation;
 import via.sep4.data.webapi.model.Device;
 import via.sep4.data.webapi.service.device.DeviceService;
 import via.sep4.data.webapi.service.remote.RemoteService;
 import via.sep4.data.webapi.util.ApiKeyUtil;
 
 @RestController
-@RequestMapping("/remote")
+@RequestMapping(path = "/remote")
 public class RemoteController {
 
     @Autowired
@@ -28,9 +29,10 @@ public class RemoteController {
     @Autowired
     private DeviceService deviceService;
 
-
-    @PostMapping("/{eui}/window")
-    public ResponseEntity setWindowValue(@RequestHeader("api-key") String apiKey, @PathVariable String eui, @RequestParam int commandPercentage) {
+    @Operation(summary = "Sets the window to a position")
+    @PostMapping(path ="/{eui}/window", produces = "application/json")
+    public ResponseEntity setWindowValue(@RequestHeader("api-key") String apiKey, @PathVariable String eui,
+            @RequestParam int commandPercentage) {
         try {
             util.checkApi(apiKey);
             Device device = deviceService.findDeviceByEUI(eui);
@@ -41,8 +43,10 @@ public class RemoteController {
         }
     }
 
-    @PostMapping("/{eui}/water")
-    public ResponseEntity setWaterValue(@RequestHeader("api-key") String apiKey, @PathVariable String eui, @RequestParam int waterValue) {
+    @Operation(summary = "Water on/off", deprecated = true)
+    @PostMapping(path = "/{eui}/water", produces = "application/json")
+    public ResponseEntity setWaterValue(@RequestHeader("api-key") String apiKey, @PathVariable String eui,
+            @RequestParam int waterValue) {
         try {
             util.checkApi(apiKey);
             Device device = deviceService.findDeviceByEUI(eui);
@@ -51,10 +55,10 @@ public class RemoteController {
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
-
     }
 
-    @PostMapping("/{eui}/light")
+    @Operation(summary = "Light on/off", deprecated = true)
+    @PostMapping(path = "/{eui}/light", produces = "application/json")
     public ResponseEntity setLightValue(@RequestHeader("api-key") String apiKey, @PathVariable String eui, @RequestParam int lightValue) {
         try {
             util.checkApi(apiKey);
@@ -64,6 +68,5 @@ public class RemoteController {
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
-
     }
 }

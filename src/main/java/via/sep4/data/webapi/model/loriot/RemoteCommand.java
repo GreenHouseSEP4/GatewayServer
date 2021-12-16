@@ -1,5 +1,8 @@
-package via.sep4.data.webapi.model.loriot.actions;
+package via.sep4.data.webapi.model.loriot;
 
+/**
+ * This model is for the specific commands that can be sent to different ports.
+ */
 public class RemoteCommand {
     private int value;
     private int destinationPort;

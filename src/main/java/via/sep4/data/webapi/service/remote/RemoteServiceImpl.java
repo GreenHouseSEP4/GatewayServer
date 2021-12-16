@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import via.sep4.data.webapi.model.loriot.actions.RemoteCommand;
+import via.sep4.data.webapi.model.loriot.RemoteCommand;
 import via.sep4.data.webapi.networking.LoriotController;
 
 @Service

@@ -8,13 +8,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import io.swagger.v3.core.util.Json;
+import io.swagger.v3.oas.annotations.Operation;
 import via.sep4.data.webapi.model.Device;
 import via.sep4.data.webapi.service.device.DeviceService;
 import via.sep4.data.webapi.util.ApiKeyUtil;
 import via.sep4.data.webapi.util.Constants;
 
 @RestController
-@RequestMapping("/devices")
+@RequestMapping(path = "/devices")
 public class DeviceController {
 
     private static final Logger logger = LoggerFactory.getLogger(DeviceController.class);
@@ -25,8 +26,8 @@ public class DeviceController {
     @Autowired
     private ApiKeyUtil util;
 
-
-    @PostMapping
+    @Operation(summary = "Register a device")
+    @PostMapping(produces = "application/json")
     public ResponseEntity createDevice(@RequestHeader("api-key") String apiKey, @RequestBody Device device) {
         try {
             util.checkApi(apiKey);
@@ -34,7 +35,7 @@ public class DeviceController {
             if (checkDevice == null) {
                 deviceService.saveDeviceByEUI(device);
                 logger.info("Device created: {}", device);
-                return new ResponseEntity<>(Json.pretty(device), HttpStatus.OK);
+                return new ResponseEntity<>(Json.pretty(device), HttpStatus.CREATED);
             } else {
                 logger.error("Device already exists: {}", device);
                 return new ResponseEntity<>("Device is already registered!", HttpStatus.FORBIDDEN);
@@ -45,7 +46,8 @@ public class DeviceController {
         }
     }
 
-    @GetMapping("/{eui}")
+    @Operation(summary = "Get a device by EUI")
+    @GetMapping(path ="/{eui}", produces = "application/json")
     public ResponseEntity getDevice(@RequestHeader("api-key") String apiKey, @PathVariable String eui) {
         try {
             if (eui.length() != Constants.EUI_LENGTH) {
@@ -65,7 +67,8 @@ public class DeviceController {
         }
     }
 
-    @PutMapping
+    @Operation(summary = "Update an existing device")
+    @PutMapping(produces = "application/json")
     public ResponseEntity updateDevice(@RequestHeader("api-key") String apiKey, @RequestBody Device device) {
         try {
             util.checkApi(apiKey);
@@ -83,7 +86,8 @@ public class DeviceController {
         }
     }
 
-    @DeleteMapping("/{eui}")
+    @Operation(summary = "Delete an existing device")
+    @DeleteMapping(path = "/{eui}", produces = "application/json")
     public ResponseEntity deleteDevice(@RequestHeader("api-key") String apiKey, @PathVariable String eui) {
         try {
             util.checkApi(apiKey);

@@ -9,31 +9,34 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import io.swagger.v3.oas.annotations.Operation;
 import via.sep4.data.webapi.model.SensorData;
 import via.sep4.data.webapi.service.measurement.MeasurementService;
 import via.sep4.data.webapi.util.ApiKeyUtil;
 import via.sep4.data.webapi.util.Constants;
 
 @RestController
-@RequestMapping("/measurements")
+@RequestMapping(path = "/measurements")
 public class MeasurementController {
     @Autowired
-    private MeasurementService sensorService;
+    private MeasurementService measurementService;
 
     @Autowired
     private ApiKeyUtil util;
 
-    @GetMapping("/{eui}/latest")
+    @Operation(summary = "Get the latest measured data")
+    @GetMapping(path ="/{eui}/latest", produces = "application/json")
     public ResponseEntity getLatestMeasurement(@RequestHeader("api-key") String apiKey, @PathVariable String eui) {
         try {
             util.checkApi(apiKey);
-            return new ResponseEntity<>(sensorService.getLatestMeasurement(eui), HttpStatus.OK);
+            return new ResponseEntity<>(measurementService.getLatestMeasurement(eui), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
 
-    @GetMapping("/{eui}/periodic")
+    @Operation(summary = "Queries mearements by date and time")
+    @GetMapping(path = "/{eui}/periodic", produces = "application/json")
     public ResponseEntity getPeriodicMeasurements(@RequestHeader("api-key") String apiKey, @PathVariable String eui, @RequestParam String start, @RequestParam String end) {
         Date startDate;
         Date endDate;
@@ -42,7 +45,7 @@ public class MeasurementController {
             util.checkApi(apiKey);
             startDate = format.parse(start);
             endDate = format.parse(end);
-            List<SensorData> sensorData = sensorService.getPeriodicMeasurements(eui, startDate, endDate);
+            List<SensorData> sensorData = measurementService.getPeriodicMeasurements(eui, startDate, endDate);
             return new ResponseEntity<>(sensorData, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
