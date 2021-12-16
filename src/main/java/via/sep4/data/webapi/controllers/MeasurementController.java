@@ -26,7 +26,7 @@ public class MeasurementController {
 
     @Operation(summary = "Get the latest measured data")
     @GetMapping(path ="/{eui}/latest", produces = "application/json")
-    public ResponseEntity getLatestMeasurement(@RequestHeader("api-key") String apiKey, @PathVariable String eui) {
+    public ResponseEntity getLatestMeasurement(@RequestHeader("api-key") String apiKey,@PathVariable String eui) {
         try {
             util.checkApi(apiKey);
             return new ResponseEntity<>(measurementService.getLatestMeasurement(eui), HttpStatus.OK);
