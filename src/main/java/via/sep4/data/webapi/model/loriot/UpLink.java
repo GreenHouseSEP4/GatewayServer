@@ -4,7 +4,7 @@ import via.sep4.data.webapi.util.Constants;
 
 public class UpLink {
     private String cmd;
-    private String eui;
+    private String EUI;
     private long ts;
     private boolean ack;
     private double fcnt;
@@ -14,9 +14,9 @@ public class UpLink {
     /**
      * This model is for the data that are received from the Loriot Network.
      */
-    public UpLink(String eui, long ts, boolean ack, double fcnt, int port, String data) {
+    public UpLink(String EUI, long ts, boolean ack, double fcnt, int port, String data) {
         this.cmd = Constants.RECEIVE_COMMAND;
-        this.eui = eui;
+        this.EUI = EUI;
         this.ts = ts;
         this.ack = ack;
         this.fcnt = fcnt;
@@ -29,11 +29,11 @@ public class UpLink {
     }
 
     public String getEui() {
-        return eui;
+        return EUI;
     }
 
-    public void setEui(String eui) {
-        this.eui = eui;
+    public void setEui(String EUI) {
+        this.EUI = EUI;
     }
 
     public long getTs() {
@@ -60,7 +60,7 @@ public class UpLink {
     public String toString() {
         return "UpLinkMessage{" +
                 "cmd='" + cmd + '\'' +
-                ", EUI='" + eui + '\'' +
+                ", EUI='" + EUI + '\'' +
                 ", ts=" + ts +
                 ", ack=" + ack +
                 ", fcnt=" + fcnt +
