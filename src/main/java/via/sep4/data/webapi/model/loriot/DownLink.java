@@ -1,7 +1,10 @@
-package via.sep4.data.webapi.model.loriot.actions;
+package via.sep4.data.webapi.model.loriot;
 
 import via.sep4.data.webapi.util.Constants;
 
+/**
+ * This model is for the commands that are sent to the Loriot Network.
+ */
 public class DownLink {
     private String cmd;
     private String EUI;

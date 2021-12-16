@@ -4,6 +4,9 @@ import java.util.Date;
 import javax.persistence.*;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * This model is for to hold the received measurement information and send this model for the client.
+ */
 @Entity
 @Table(name = "SensorData", schema = "dbo")
 public class SensorData {

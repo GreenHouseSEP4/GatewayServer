@@ -6,10 +6,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import via.sep4.data.webapi.model.loriot.actions.RemoteCommand;
-import via.sep4.data.webapi.model.loriot.actions.DownLink;
 import via.sep4.data.webapi.model.SensorData;
-import via.sep4.data.webapi.model.loriot.actions.UpLink;
+import via.sep4.data.webapi.model.loriot.DownLink;
+import via.sep4.data.webapi.model.loriot.RemoteCommand;
+import via.sep4.data.webapi.model.loriot.UpLink;
 import via.sep4.data.webapi.service.measurement.MeasurementService;
 import via.sep4.data.webapi.util.Constants;
 
@@ -18,16 +18,19 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.Date;
 
+/**
+ * Class for sending and receiving data over the websocket.
+ */
 @Component
 public class LoriotController {
     
     private static final Logger logger = LoggerFactory.getLogger(LoriotController.class);
     private Gson gson = new Gson();
-    private MeasurementService sensorService;
+    private MeasurementService measurementService;
     private final WebSocketClient webSocketClient;
 
     public LoriotController(MeasurementService sensorService) {
-        this.sensorService = sensorService;
+        this.measurementService = sensorService;
         webSocketClient = new WebSocketClient();
         webSocketClient.addPropertyChangeListener("Receive data", this::receiveData);
     }
@@ -44,13 +47,19 @@ public class LoriotController {
         SensorData data = processData(message);
         logger.info("Received message: {}", data);
         try {
-            sensorService.addMeasurement(data);
+            measurementService.addMeasurement(data);
         } catch (Exception e) {
             logger.info("Data could not be processed");
             e.printStackTrace();
         }
     }
 
+    /**
+     * This method will process the message received from the Loriot network by
+     * applying a regular expression on the message and splitting it into measurements.
+     * @param message
+     * @return SensorData object containing the measurements.
+     */
     private SensorData processData(UpLink message) {
         SensorData data = new SensorData();
         String[] parts = new String[5];
@@ -86,6 +95,13 @@ public class LoriotController {
         return data;
     }
 
+    /**
+     * Takes the timestamp from the message as epoch milliseconds and returns
+     * a Date object. One hour added so the persistence is corrent as the db
+     * running in UTC at this time but the system is using local time.
+     * @param message
+     * @return Date object.
+     */
     private Date processTimestamp(UpLink message) {
         return new Date(message.getTs() + Constants.ONE_HOUR);
     }

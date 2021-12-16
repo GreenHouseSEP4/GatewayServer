@@ -2,8 +2,13 @@ package via.sep4.data.webapi.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import org.springframework.context.annotation.Description;
+
 import javax.persistence.*;
 
+/**
+ * This model is for to hold the information on the different physical devices registered by the client.
+ */
 @Entity
 @Table(name = "Device", schema = "dbo")
 public class Device {

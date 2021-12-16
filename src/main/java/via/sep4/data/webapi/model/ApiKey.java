@@ -4,6 +4,9 @@ import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * This model is for to get the api key from the database.
+ */
 @Entity
 @Table(name = "ApiKey", schema = "dbo")
 public class ApiKey {
