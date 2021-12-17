@@ -1,0 +1,11 @@
+via.sep4.data.webapi
+via.sep4.data.webapi.controllers
+via.sep4.data.webapi.model
+via.sep4.data.webapi.model.loriot
+via.sep4.data.webapi.networking
+via.sep4.data.webapi.repository
+via.sep4.data.webapi.service.api
+via.sep4.data.webapi.service.device
+via.sep4.data.webapi.service.measurement
+via.sep4.data.webapi.service.remote
+via.sep4.data.webapi.util
